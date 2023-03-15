@@ -1,13 +1,11 @@
 'use client';
 
-import { Button } from '@chakra-ui/react';
-
-import styles from './page.module.css';
+import { Login } from './login';
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <Button>Button</Button>
+    <main>
+      <Login />
     </main>
   );
 }
