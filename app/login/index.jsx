@@ -7,6 +7,7 @@ import {
   Button,
   InputRightAddon,
   Checkbox,
+  Container,
 } from '@chakra-ui/react';
 import { EmailIcon, LockIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
@@ -14,9 +15,9 @@ import Image from 'next/image';
 import LogoFundacion from '../../assets/logo-fundacion.png';
 
 export const Login = () => (
-  <Flex background="#F0F0F0" height="100vh" justify="center">
-    <Flex maxWidth="95vw" alignItems="start" justifyContent="center">
-      <Box width="28%" marginTop="3rem">
+  <Container maxW="100%" background="#F0F0F0" centerContent>
+    <Flex maxW="87vw" minHeight="100vh" justify="space-between" align="center">
+      <Box width="28%" height="80%" display={['none', 'none', 'none', 'block']}>
         <Image src={LogoFundacion} alt="Logo FUBE" />
         <Text fontSize={32} fontWeight={600}>
           Plataforma de Seguimiento de Casos de Abuso Infantil.
@@ -25,22 +26,23 @@ export const Login = () => (
           Trabajando juntos por la seguridad y el bienestar de los niños.
         </Text>
       </Box>
-      <Flex
-        width="50%"
-        justifyContent="flex-end"
-        alignItems="center"
-        height="100%"
-      >
+
+      <Flex justify="flex-end" align="flex-start">
         <Flex
           background="white"
           borderRadius="md"
           paddingX="4rem"
-          paddingY="6rem"
+          paddingY="5rem"
           direction="column"
           gap="6"
           width={480}
           justifyContent="center"
+          marginTop="2rem"
         >
+          <Flex display={['flex', 'flex', 'flex', 'none']} justify="center">
+            <Image src={LogoFundacion} alt="Logo FUBE" />
+          </Flex>
+
           <Box>
             <Text fontSize={24} fontWeight={500}>
               Iniciar Sesión
@@ -77,9 +79,11 @@ export const Login = () => (
             </Checkbox>
           </Flex>
 
-          <Button colorScheme="blue" size="lg">Iniciar sesión</Button>
+          <Button colorScheme="blue" size="lg">
+            Iniciar sesión
+          </Button>
         </Flex>
       </Flex>
     </Flex>
-  </Flex>
+  </Container>
 );
