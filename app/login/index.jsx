@@ -15,31 +15,41 @@ import Image from 'next/image';
 import LogoFundacion from '../../assets/logo-fundacion.png';
 
 export const Login = () => (
-  <Container maxW="100%" background="#F0F0F0" centerContent>
-    <Flex maxW="87vw" minHeight="100vh" justify="space-between" align="center">
-      <Box width="28%" height="80%" display={['none', 'none', 'none', 'block']}>
-        <Image src={LogoFundacion} alt="Logo FUBE" />
-        <Text fontSize={32} fontWeight={600}>
+  <Container maxWidth="100%" height="100vh" background="#F0F0F0" centerContent>
+    <Flex maxWidth="87vw" justify="space-between" marginY="auto">
+      <Flex
+        width="28%"
+        minHeight="100%"
+        display={['none', 'none', 'none', 'flex']}
+        direction="column"
+        align="flex-start"
+      >
+        <Image src={LogoFundacion} alt="Logo FUBE" height="auto"/>
+        <Text fontSize={32} fontWeight={600} lineHeight="38.73px">
           Plataforma de Seguimiento de Casos de Abuso Infantil.
         </Text>
-        <Text fontSize={18} fontWeight={400} color="gray">
+        <Text fontSize={18} fontWeight={400} color="gray" lineHeight="21.78px" marginTop="0.5rem">
           Trabajando juntos por la seguridad y el bienestar de los niños.
         </Text>
-      </Box>
+      </Flex>
 
-      <Flex justify="flex-end" align="flex-start">
+      <Flex justify="flex-end">
         <Flex
           background="white"
           borderRadius="md"
-          paddingX="4rem"
-          paddingY="5rem"
+          paddingX={['2rem', '2rem', '4rem', '4rem']}
+          paddingY={['2rem', '2rem', '2rem', '9rem']}
           direction="column"
-          gap="6"
-          width={480}
+          gap="7"
           justifyContent="center"
-          marginTop="2rem"
+          marginTop={['1', '1rem', '1rem', '2rem']}
         >
-          <Flex display={['flex', 'flex', 'flex', 'none']} justify="center">
+          <Flex
+            display={['flex', 'flex', 'flex', 'none']}
+            justify="center"
+            width="auto"
+            align="center"
+          >
             <Image src={LogoFundacion} alt="Logo FUBE" />
           </Flex>
 
