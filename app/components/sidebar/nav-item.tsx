@@ -8,11 +8,7 @@ interface NavItemProps {
 export const NavItem = ({ route, label }: NavItemProps) => {
   return (
     <li>
-      <Link
-        fontWeight={700}
-        color="#000000AB"
-        href={route}
-      >
+      <Link fontWeight={700} color="#000000AB" href={route}>
         {label}
       </Link>
     </li>

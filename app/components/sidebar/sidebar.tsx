@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
 import {
   IconButton,
   Avatar,
@@ -22,24 +22,24 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
-import { ReactText } from 'react'
+import { ReactText } from 'react';
 
-const Icon = () => <p>Icon</p>
+const Icon = () => <p>Icon</p>;
 
 interface LinkItemProps {
-  name: string
-  icon: unknown
+  name: string;
+  icon: unknown;
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Dashboard', icon: <Icon /> },
   { name: 'Casos', icon: <Icon /> },
   { name: 'Usuarios', icon: <Icon /> },
-]
+];
 
 export function Sidebar({ children }: { children: ReactNode }) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
@@ -65,11 +65,11 @@ export function Sidebar({ children }: { children: ReactNode }) {
         {children}
       </Box>
     </Box>
-  )
+  );
 }
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -96,12 +96,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </NavItem>
       ))}
     </Box>
-  )
-}
+  );
+};
 
 interface NavItemProps extends FlexProps {
-  icon: unknown
-  children: ReactText
+  icon: unknown;
+  children: ReactText;
 }
 const NavItem = ({ children, ...rest }: NavItemProps) => {
   return (
@@ -136,11 +136,11 @@ const NavItem = ({ children, ...rest }: NavItemProps) => {
         {children}
       </Flex>
     </Link>
-  )
-}
+  );
+};
 
 interface MobileProps extends FlexProps {
-  onOpen: () => void
+  onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
@@ -223,5 +223,5 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         </Flex>
       </HStack>
     </Flex>
-  )
-}
+  );
+};

@@ -2,8 +2,7 @@
 
 import { ReactNode } from 'react';
 
-import { SideBar } from '@/app/components/sidebar';
-import { Container } from '@chakra-ui/react';
+import { Sidebar } from '@/app/components/sidebar';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -11,9 +10,10 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <Container maxWidth="100vw" height="100vh" margin="0" padding="0">
-      <SideBar />
-      {children}
-    </Container>
+    <Sidebar>{children}</Sidebar>
+    // <Container maxWidth="100vw" height="100vh" margin="0" padding="0">
+    //   <SideBar />
+    //   {children}
+    // </Container>
   );
 }
