@@ -10,5 +10,5 @@ export default function HomePage() {
     router.push('/login');
   }, [router]);
 
-  return <main/>;
+  return <main />;
 }
