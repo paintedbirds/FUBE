@@ -43,24 +43,19 @@ In some cases, you may want to use custom icons in your Chakra UI project that a
 
 To get started, follow these steps:
 
-1. Export the SVG icon from Figma as a separate file. 
-2. Create a new JSX file inside of the `@/assets/icons`. 
+1. Export the SVG icon from Figma as a separate file.
+2. Create a new JSX file inside of the `@/assets/icons`.
 3. Copy and paste the SVG code for your icon inside of the JSX file.
 4. Export a new component that is wrapped in the Icon component from Chakra.
 
-Here is an example: 
+Here is an example:
 
-```jsx 
+```jsx
 import { Icon, IconProps } from '@chakra-ui/react';
 
 export const UserDetailIcon = (props: IconProps) => {
   return (
-    <Icon
-      width="22"
-      height="22"
-      viewBox="0 0 22 22"
-      {...props}
-    >
+    <Icon width="22" height="22" viewBox="0 0 22 22" {...props}>
       <path d="M10 20L10 4L18 12Z" fill="currentColor" />
     </Icon>
   );

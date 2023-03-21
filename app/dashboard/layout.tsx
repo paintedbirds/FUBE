@@ -9,11 +9,5 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  return (
-    <Sidebar>{children}</Sidebar>
-    // <Container maxWidth="100vw" height="100vh" margin="0" padding="0">
-    //   <SideBar />
-    //   {children}
-    // </Container>
-  );
+  return <Sidebar>{children}</Sidebar>;
 }
