@@ -4,13 +4,9 @@ import { ReactNode } from 'react';
 import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import { AddIcon, EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
 
-import { MainActionButtonProps } from '@/app/types';
+import { DataItem, MainActionButtonProps } from '@/app/types';
 import { ObjectTable } from '@/app/components/object-table';
 import { ObjectTabs } from '@/app/components/object-tabs';
-
-interface DataItem {
-  [key: string]: ReactNode;
-}
 
 const tabs: string[] = [
   'Todos',
@@ -50,24 +46,25 @@ const tabContents: ReactNode[] = [
 export default function Home() {
   return (
     <main>
-      <Flex paddingTop="3rem" paddingInlineStart="3rem" direction="column">
-        <Box width={500}>
-          <Text fontWeight={700} fontSize={32}>
+      <Flex direction="column">
+        <Box width="full">
+          <Text fontWeight="bold" fontSize="4xl">
             Administración de Usuarios
           </Text>
-          <Text color="#808080" fontSize={20}>
+          <Text color="#808080" fontSize="xl">
             Visualiza a todos los usuarios de FUBE organizados por sus
-            respectivas áreas.
+            respectivas áreas
           </Text>
         </Box>
-        <Flex align="flex-start" marginTop="2.5rem">
-          <Box minWidth="800px">
-            <ObjectTabs tabs={tabs} tabContents={tabContents} />
-          </Box>
+        <Flex marginTop="2.5rem" gap="60px">
+          <ObjectTabs tabs={tabs} tabContents={tabContents} />
           <Button
-            colorScheme="blue"
+            bg="#2843B2"
+            color="white"
+            px="24px"
+            py="16px"
+            height="60px"
             rightIcon={<AddIcon />}
-            marginInlineStart="-9.5rem"
           >
             Crear Usuario
           </Button>
