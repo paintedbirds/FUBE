@@ -1,13 +1,14 @@
 'use client';
 
-import { Button } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import styles from './page.module.css';
+export default function HomePage() {
+  const router = useRouter();
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <Button>Button</Button>
-    </main>
-  );
+  useEffect(() => {
+    router.push('/login');
+  }, [router]);
+
+  return <main/>;
 }
