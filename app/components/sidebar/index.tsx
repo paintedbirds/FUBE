@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { Box, Flex, Text, Button, Divider, FlexProps } from '@chakra-ui/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { AddIcon, IconProps } from '@chakra-ui/icons';
 import { AlbumsIcon, DashboardIcon, UserDetailIcon } from '@/assets/icons';
 import LogoFoundationVariant from '@/assets/logo-variant.svg';
@@ -46,10 +47,16 @@ export const Sidebar = ({ children }: { children: ReactNode }) => {
 };
 
 const SidebarContent = (props: FlexProps) => {
+  const router = useRouter();
+
+  const handleRegisterClick = () => {
+    router.push('/dashboard/casos/registro');
+  };
+
   return (
     <Flex
       transition="3s ease"
-      bg="gray.100"
+      bg="#F5F5F5"
       w={{ base: 'full', md: 60 }}
       position="fixed"
       minH="full"
@@ -69,6 +76,22 @@ const SidebarContent = (props: FlexProps) => {
         <Image src={LogoFoundationVariant} alt="Logo FUBE" />
       </Flex>
 
+      <Flex justify="center" direction="column" align="center" p="4">
+        <Button
+          background="#2843B21A"
+          color="#2843B2"
+          rightIcon={<AddIcon />}
+          paddingY="10px"
+          paddingX="2rem"
+          height="48px"
+          fontWeight="bold"
+          onClick={handleRegisterClick}
+        >
+          Registrar un caso
+        </Button>
+        <Divider marginY="0.5rem" />
+      </Flex>
+
       {links.map(({ icon, label, route }) => (
         <NavItem key={label} icon={icon} route={route} label={label} />
       ))}
@@ -80,17 +103,6 @@ const SidebarContent = (props: FlexProps) => {
         align="center"
         p="4"
       >
-        <Button
-          background="#FFE5E4CF"
-          color="#EE2C1F"
-          rightIcon={<AddIcon />}
-          paddingY="1rem"
-          paddingX="2rem"
-          height="48px"
-          fontWeight="bold"
-        >
-          Registrar un caso
-        </Button>
         <Divider marginY="0.5rem" />
         <Text
           fontSize={12}

@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import { AddIcon, EditIcon, ViewIcon } from '@chakra-ui/icons';
 
@@ -37,6 +38,12 @@ const tabContents: ReactNode[] = [
 ];
 
 export default function CasosPage() {
+  const router = useRouter();
+
+  const handleRegisterClick = () => {
+    router.push('/dashboard/casos/registro');
+  };
+
   return (
     <main>
       <Flex direction="column">
@@ -58,6 +65,7 @@ export default function CasosPage() {
             py="16px"
             height="60px"
             rightIcon={<AddIcon />}
+            onClick={handleRegisterClick}
           >
             Registrar caso
           </Button>
