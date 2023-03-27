@@ -9,12 +9,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-interface CreateUserForm {
+interface CreateUserFormProps {
   setIsDataValid: (isValid: boolean) => void;
   onCancel: () => void;
 }
 
-export const CreateUserForm: FC<CreateUserForm> = ({
+export const CreateUserForm: FC<CreateUserFormProps> = ({
   setIsDataValid,
   onCancel,
 }) => {

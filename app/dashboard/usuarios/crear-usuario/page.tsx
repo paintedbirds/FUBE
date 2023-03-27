@@ -1,6 +1,5 @@
 'use client';
 
-import { CreateUserForm } from '@/app/components/create-user-form';
 import {
   Box,
   Drawer,
@@ -19,6 +18,9 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import { CreateUserForm } from '@/app/components/create-user-form';
+import { CreateUserPreview } from '@/app/components/create-user-preview';
 
 export default function UserCreation() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,7 +56,12 @@ export default function UserCreation() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader>
-            <Text fontSize="sm">Dashboard / Usuarios / Crear usuario</Text>{' '}
+            <Text fontSize="sm" fontWeight="semibold">
+              <Text color="#808080" as="span" fontWeight="thin">
+                Dashboard / Usuarios
+              </Text>{' '}
+              / Crear usuario
+            </Text>
           </DrawerHeader>
           <DrawerBody>
             <VStack gap={10}>
@@ -68,7 +75,6 @@ export default function UserCreation() {
                 </Text>
               </Box>
               <Tabs
-                align="center"
                 variant="enclosed"
                 width="100%"
                 isFitted
@@ -76,15 +82,18 @@ export default function UserCreation() {
                 onChange={handleTabsChange}
               >
                 <TabList>
-                  <Tab>Completar datos</Tab>
+                  <Tab isDisabled={isDataValid}>Completar datos</Tab>
                   <Tab isDisabled={!isDataValid}>Confirmar datos</Tab>
                 </TabList>
-                <TabPanels marginTop="1.5rem">
+                <TabPanels marginTop="1rem">
                   <TabPanel>
                     <CreateUserForm
                       setIsDataValid={setIsDataValid}
                       onCancel={onCloseDrawer}
                     />
+                  </TabPanel>
+                  <TabPanel>
+                    <CreateUserPreview onCancel={onCloseDrawer} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
