@@ -1,11 +1,17 @@
 import { FC } from 'react';
 import { VStack, HStack, Avatar, Button, Text } from '@chakra-ui/react';
 
+type Callback = () => void
+
 interface CreateUserPreviewProps {
-  onCancel: () => void;
+  onEdit: Callback;
+  onCancel: Callback;
 }
 
-export const CreateUserPreview: FC<CreateUserPreviewProps> = ({ onCancel }) => {
+export const CreateUserPreview: FC<CreateUserPreviewProps> = ({
+  onCancel,
+  onEdit,
+}) => {
   return (
     <>
       <VStack gap={10} align="flex-start">
@@ -40,7 +46,14 @@ export const CreateUserPreview: FC<CreateUserPreviewProps> = ({ onCancel }) => {
               </Text>
             </VStack>
           </HStack>
-          <Button size="xs" variant="ghost" textDecoration="underline">Edit</Button>
+          <Button
+            size="xs"
+            variant="ghost"
+            textDecoration="underline"
+            onClick={onEdit}
+          >
+            Edit
+          </Button>
         </HStack>
       </VStack>
       <HStack justify="space-between" width="100%" marginTop="5rem">

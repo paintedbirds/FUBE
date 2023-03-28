@@ -41,6 +41,11 @@ export default function UserCreation() {
     router.push('/dashboard/usuarios');
   };
 
+  const onEdit = () => {
+    setTabIndex(0);
+    setIsDataValid(false);
+  };
+
   const handleTabsChange = (index: number) => {
     setTabIndex(index);
   };
@@ -93,7 +98,10 @@ export default function UserCreation() {
                     />
                   </TabPanel>
                   <TabPanel>
-                    <CreateUserPreview onCancel={onCloseDrawer} />
+                    <CreateUserPreview
+                      onCancel={onCloseDrawer}
+                      onEdit={onEdit}
+                    />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
