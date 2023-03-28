@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { VStack, HStack, Avatar, Button, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 
-type Callback = () => void
+type Callback = () => void;
 
 interface CreateUserPreviewProps {
   onEdit: Callback;
@@ -12,6 +13,13 @@ export const CreateUserPreview: FC<CreateUserPreviewProps> = ({
   onCancel,
   onEdit,
 }) => {
+  const router = useRouter();
+
+  const onConfirm = () => {
+    onCancel();
+    router.push('/dashboard/usuarios/1234');
+  };
+
   return (
     <>
       <VStack gap={10} align="flex-start">
@@ -32,7 +40,7 @@ export const CreateUserPreview: FC<CreateUserPreviewProps> = ({
         <HStack justify="space-between" align="center" width="100%">
           <HStack align="flex-start">
             <Avatar
-              name="User Name"
+              name="Gonzalo Perez "
               src="https://bit.ly/broken-link"
               size="sm"
             />
@@ -72,6 +80,7 @@ export const CreateUserPreview: FC<CreateUserPreviewProps> = ({
           background="#38A169"
           color="#fff"
           width="50%"
+          onClick={onConfirm}
         >
           Validar
         </Button>
