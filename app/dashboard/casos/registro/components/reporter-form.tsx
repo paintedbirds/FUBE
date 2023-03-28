@@ -44,8 +44,8 @@ export function ReporterForm() {
           Denunciante
         </Text>
         <Text color="gray" as="p">
-          Ingrese toda la informacion del denunciante, todos los campos son
-          opcionales.
+          Ingrese toda la informacion del <Text as="ins">denunciante</Text>,
+          todos los campos son opcionales.
         </Text>
         <Divider />
         <HStack>

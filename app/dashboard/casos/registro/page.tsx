@@ -6,6 +6,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { ObjectTabs } from '@/app/components/object-tabs';
 import { ReporterForm } from './components/reporter-form';
 import { FormTabsProvider } from './hooks/useFormTabs';
+import { AggressorForm } from './components/aggressor-form';
 
 const tabs: string[] = [
   'Denunciante',
@@ -17,7 +18,10 @@ const tabs: string[] = [
   'FUBE',
 ];
 
-const tabContents: ReactNode[] = [<ReporterForm key="denunciante" />];
+const tabContents: ReactNode[] = [
+  <ReporterForm key="denunciante" />,
+  <AggressorForm key="agresor" />,
+];
 
 export default function CasosPage() {
   const [tabIndex, setTabIndex] = useState(0);
