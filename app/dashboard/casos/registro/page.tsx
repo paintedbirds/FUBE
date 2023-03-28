@@ -4,9 +4,10 @@ import { ReactNode, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { ObjectTabs } from '@/app/components/object-tabs';
-import { ReporterForm } from './components/reporter-form';
-import { FormTabsProvider } from './hooks/useFormTabs';
 import { AggressorForm } from './components/aggressor-form';
+import { ReporterForm } from './components/reporter-form';
+import { NNAForm } from './components/nna-form';
+import { FormTabsProvider } from './hooks/useFormTabs';
 
 const tabs: string[] = [
   'Denunciante',
@@ -21,6 +22,7 @@ const tabs: string[] = [
 const tabContents: ReactNode[] = [
   <ReporterForm key="denunciante" />,
   <AggressorForm key="agresor" />,
+  <NNAForm key="nna" />,
 ];
 
 export default function CasosPage() {
