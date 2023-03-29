@@ -12,5 +12,5 @@ interface LoginResponseDto {
 }
 
 export const login = (credentialsDto: LoginRequestDto) => {
-  return httpClient.post<LoginResponseDto>('/login', credentialsDto)
+  return httpClient.post<LoginResponseDto>('/login/', credentialsDto)
 }
