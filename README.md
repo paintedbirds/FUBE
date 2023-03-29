@@ -36,3 +36,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Custom Icons
+
+In some cases, you may want to use custom icons in your Chakra UI project that are not available in the default icon library. In this scenario, you can import SVG icons from Figma and create a custom JSX component to use as an icon.
+
+To get started, follow these steps:
+
+1. Export the SVG icon from Figma as a separate file.
+2. Create a new JSX file inside of the `@/assets/icons`.
+3. Copy and paste the SVG code for your icon inside of the JSX file.
+4. Export a new component that is wrapped in the Icon component from Chakra.
+
+Here is an example:
+
+```jsx
+import { Icon, IconProps } from '@chakra-ui/react';
+
+export const UserDetailIcon = (props: IconProps) => {
+  return (
+    <Icon width="22" height="22" viewBox="0 0 22 22" {...props}>
+      <path d="M10 20L10 4L18 12Z" fill="currentColor" />
+    </Icon>
+  );
+};
+```

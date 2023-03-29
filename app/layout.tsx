@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useRef } from 'react'
 
-import './globals.css'
+import './globals.css';
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   const queryClient = useRef(new QueryClient())
 
@@ -25,5 +25,5 @@ export default function RootLayout({
         </QueryClientProvider>
       </body>
     </html>
-  )
+  );
 }
