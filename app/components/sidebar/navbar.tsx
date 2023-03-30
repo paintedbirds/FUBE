@@ -17,6 +17,7 @@ export const Navbar = (props: FlexProps) => {
     <Flex
       ml={{ base: 0, md: 60 }}
       p={{ base: 12 }}
+      paddingBottom="0"
       alignItems="center"
       bg="white"
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
