@@ -52,7 +52,7 @@ interface UsersLayout {
   children: ReactNode;
 }
 
-export default function UsersLayout({children}: UsersLayout) {
+export default function UsersLayout({ children }: UsersLayout) {
   const router = useRouter();
 
   const onCreateUser = () => {
@@ -61,24 +61,25 @@ export default function UsersLayout({children}: UsersLayout) {
 
   return (
     <main>
-      <Flex paddingTop="3rem" paddingInlineStart="3rem" direction="column">
-        <Box width={500}>
-          <Text fontWeight={700} fontSize={32}>
+      <Flex direction="column">
+        <Box width="full">
+          <Text fontWeight="bold" fontSize="4xl">
             Administración de Usuarios
           </Text>
-          <Text color="#808080" fontSize={20}>
+          <Text color="#808080" fontSize="xl">
             Visualiza a todos los usuarios de FUBE organizados por sus
-            respectivas áreas.
+            respectivas áreas
           </Text>
         </Box>
-        <Flex align="flex-start" marginTop="2.5rem">
-          <Box>
-            <ObjectTabs tabs={tabs} tabContents={tabContents} />
-          </Box>
+        <Flex marginTop="2.5rem" gap="60px">
+          <ObjectTabs tabs={tabs} tabContents={tabContents} />
           <Button
-            colorScheme="blue"
+            background="#2843B2"
+            color="white"
+            paddingX="24px"
+            paddingY="16px"
+            height="60px"
             rightIcon={<AddIcon />}
-            marginInlineStart="-9.5rem"
             onClick={onCreateUser}
           >
             Crear Usuario
