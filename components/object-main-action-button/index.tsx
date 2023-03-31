@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Button, Flex } from '@chakra-ui/react';
 
-import { MainActionButtonProps } from '@/app/types';
+import { MainActionButtonProps } from '@/types';
 
 export const ObjectMainActionButton: FC<MainActionButtonProps> = ({
   icon,

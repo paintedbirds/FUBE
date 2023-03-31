@@ -1,11 +1,11 @@
 import { httpClient } from '../http-client';
 
-interface LoginRequestDto {
+export interface LoginRequestDto {
   username: string;
   password: string;
 }
 
-interface LoginResponseDto {
+export interface LoginResponseDto {
   token: string;
   model_perms: string[];
   group_names: string[];
