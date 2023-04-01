@@ -20,10 +20,20 @@ import LogoFundationVariant from 'assets/logo-variant.svg';
 export default function LoginPage() {
   return (
     <main>
+      <Box
+        backgroundImage="url('/login-background.jpg')"
+        backgroundSize="cover"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        filter="blur(2px)"
+        height="100vh"
+        position="absolute"
+        width="100%"
+        zIndex="-1"
+      />
       <Container
         maxWidth="100vw"
         height="100vh"
-        background="#F0F0F0"
         centerContent
       >
         <Flex
