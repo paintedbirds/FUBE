@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { VStack, HStack, Avatar, Button, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import { AddIcon } from '@chakra-ui/icons';
 
 type Callback = () => void;
 
@@ -80,9 +81,10 @@ export const CreateUserPreview: FC<CreateUserPreviewProps> = ({
           background="#38A169"
           color="#fff"
           width="50%"
+          rightIcon={<AddIcon />}
           onClick={onConfirm}
         >
-          Validar
+          Crear usuario
         </Button>
       </HStack>
     </>

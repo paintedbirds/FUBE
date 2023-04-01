@@ -19,14 +19,16 @@ import {
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { CreateUserForm } from '@/app/components/create-user-form';
 import { CreateUserPreview } from '@/app/components/create-user-preview';
+import { UserForm } from '../components/user-form';
+import { User } from '@/utils/types';
 
 export default function UserCreation() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const [isDataValid, setIsDataValid] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [user, setUser] = useState<User>();
 
   useEffect(onOpen, [onOpen]);
 
@@ -39,6 +41,10 @@ export default function UserCreation() {
   const onCloseDrawer = () => {
     onClose();
     router.push('/dashboard/usuarios');
+  };
+
+  const onValidated = (user: User) => {
+    setUser(user);
   };
 
   const onEdit = () => {
@@ -92,10 +98,7 @@ export default function UserCreation() {
                 </TabList>
                 <TabPanels marginTop="1rem">
                   <TabPanel>
-                    <CreateUserForm
-                      setIsDataValid={setIsDataValid}
-                      onCancel={onCloseDrawer}
-                    />
+                    <UserForm user={user} onCancel={onCloseDrawer} onValidated={onValidated} />
                   </TabPanel>
                   <TabPanel>
                     <CreateUserPreview

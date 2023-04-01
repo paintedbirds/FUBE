@@ -1,118 +1,127 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FC } from 'react';
+'use-client';
+
+import { FC, FormEvent, useState } from 'react';
 import {
   Button,
   Divider,
   FormControl,
-  FormErrorMessage,
+  FormLabel,
   HStack,
   Input,
   Select,
   VStack,
 } from '@chakra-ui/react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
+
+import { User } from '@/utils/types';
 
 interface UserFormProps {
-  user: never; // TODO: define user when user endpoints are availables
-  setTabIndex: (tabIndex: number) => void;
-  onSubmit: SubmitHandler<FieldValues>;
+  user?: User;
+  onCancel: () => void;
+  onValidated: (user: User) => void;
 }
 
-export const UserForm: FC<UserFormProps> = ({ setTabIndex, onSubmit }) => {
+export const UserForm: FC<UserFormProps> = ({
+  user,
+  onCancel,
+  onValidated,
+}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { isSubmitting },
   } = useForm();
+  const [formData, setFormData] = useState<User>();
 
-  // const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
-  //   console.log(data);
-  // };
+  const handleFields = (event: FormEvent) => {
+    const { id, value } = event.target as HTMLInputElement;
+    const newData = {
+      ...user,
+      [id]: value,
+    };
+    setFormData(newData as User);
+  };
 
-  const onValidateData = () => {
-    // TODO: validate data
-    setTabIndex(1);
+  const onSubmit = (data: FieldValues) => {
+    onValidated(data as User);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack gap={3} width="100%">
-        <FormControl isInvalid={!!errors.name}>
-          {/*
-          // @ts-ignore */}
+        <FormControl>
+          <FormLabel htmlFor="username">Nombre de usuario</FormLabel>
           <Input
-            id="user_name"
-            placeholder="Nombre"
-            {...(register('name'), { required: 'This is required' })}
+            id="username"
+            placeholder="Nombre de usuario"
+            {...register('username')}
+            value={formData?.username}
+            onChange={handleFields}
           />
-          <FormErrorMessage>
-            {errors.name && <>errors.name.message</>}
-          </FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.lastname}>
-          {/*
-          // @ts-ignore */}
-          <Input
-            id="lastname"
-            placeholder="Apellido"
-            {...(register('lastname'), { required: 'This is required' })}
-          />
-          <FormErrorMessage>
-            {errors.lastname && <>errors.lastname.message</>}
-          </FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.phone}>
-          {/*
-          // @ts-ignore */}
-          <Input
-            id="phone"
-            placeholder="Celular"
-            {...(register('phone'), { required: 'This is required' })}
-          />
-          <FormErrorMessage>
-            {errors.phone && <>errors.phone.message</>}
-          </FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.userType}>
-          {/*
-          // @ts-ignore */}
-          <Select
-            id="userType"
-            placeholder="Tipo de usuario"
-            {...(register('userType'), { required: 'This is required' })}
-          />
-          <FormErrorMessage>
-            {errors.userType && <>errors.userType.message</>}
-          </FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.email}>
-          {/*
-          // @ts-ignore */}
-          <Input
-            id="email"
-            placeholder="Email"
-            {...(register('email'), { required: 'This is required' })}
-          />
-          <FormErrorMessage>
-            {errors.email && <>errors.email.message</>}
-          </FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.password}>
-          {/*
-          // @ts-ignore */}
+        <FormControl>
           <Input
             id="password"
-            placeholder="Email"
-            {...(register('password'), { required: 'This is required' })}
+            placeholder="Contraseña"
+            value={formData?.password}
+            {...register('password')}
+            onChange={handleFields}
           />
-          <FormErrorMessage>
-            {errors.password && <>errors.password.message</>}
-          </FormErrorMessage>
+        </FormControl>
+
+        <FormControl>
+          <Input
+            id="first_name"
+            placeholder="Nombre"
+            value={formData?.first_name}
+            {...register('first_name')}
+            onChange={handleFields}
+          />
+        </FormControl>
+
+        <FormControl>
+          <Input
+            id="last_name"
+            placeholder="Apellido"
+            value={formData?.last_name}
+            {...register('last_name')}
+            onChange={handleFields}
+          />
+        </FormControl>
+
+        <FormControl>
+          <Select
+            id="area"
+            placeholder="Área"
+            value={formData?.area}
+            {...register('area')}
+            onChange={handleFields}
+          >
+            <option value="legal">Legal</option>
+            <option value="psicologia">Psicologia</option>
+            <option value="social">social</option>
+            <option value="social">administrativa</option>
+          </Select>
+        </FormControl>
+
+        <FormControl>
+          <Select
+            id="user_type"
+            placeholder="Tipo de usuario"
+            value={formData?.type}
+            {...register('user_type')}
+            onChange={handleFields}
+          >
+            <option value="abogada_admin">Abogada Admin</option>
+            <option value="abogada_asignada">Abogada Asignada</option>
+            <option value="asistente_legal">Asistente Legal</option>
+            <option value="voluntario">Voluntario</option>
+            <option value="social_admin">Social Admin</option>
+            <option value="social_asignada">Social Asignada</option>
+            <option value="cordinadora">Cordinadora</option>
+            <option value="ceo">CEO</option>
+          </Select>
         </FormControl>
 
         <Divider />
@@ -123,6 +132,7 @@ export const UserForm: FC<UserFormProps> = ({ setTabIndex, onSubmit }) => {
             borderColor="#2843B2"
             color="#2843B2"
             width="50%"
+            onClick={onCancel}
           >
             Cancelar
           </Button>
@@ -132,7 +142,8 @@ export const UserForm: FC<UserFormProps> = ({ setTabIndex, onSubmit }) => {
             background="#2843B2"
             color="#fff"
             width="50%"
-            onClick={onValidateData}
+            type="submit"
+            isLoading={isSubmitting}
           >
             Validar
           </Button>

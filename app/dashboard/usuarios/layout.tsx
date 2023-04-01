@@ -5,7 +5,7 @@ import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import { AddIcon, EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
 
-import { MainActionButtonProps } from '@/app/types';
+import { MainActionButtonProps } from '@/utils/types';
 import { ObjectTable } from '@/app/components/object-table';
 import { ObjectTabs } from '@/app/components/object-tabs';
 
