@@ -113,7 +113,7 @@ export default function ViewUser({ params }: never) {
                   background="#FA3E320D"
                   leftIcon={<DeleteIcon />}
                 >
-                  Editar Usuario
+                  Eliminar Usuario
                 </Button>
               </VStack>
             </Flex>

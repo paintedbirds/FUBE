@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 import { CreateUserForm } from '@/app/components/create-user-form';
 import { CreateUserPreview } from '@/app/components/create-user-preview';
 
-export default function UserCreation() {
+export default function UserEditByIDPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const [isDataValid, setIsDataValid] = useState(false);
@@ -65,18 +65,18 @@ export default function UserCreation() {
               <Text color="#808080" as="span" fontWeight="thin">
                 Dashboard / Usuarios
               </Text>{' '}
-              / Crear usuario
+              / Editar usuario
             </Text>
           </DrawerHeader>
           <DrawerBody>
             <VStack gap={10}>
               <Box>
                 <Text color="#2843B2" fontWeight="semibold" fontSize="2xl">
-                  Crear un usuario
+                  Edición de Usuario
                 </Text>
                 <Text color="#808080" fontSize="sm">
-                  Crea un usuario para que pueda accedar y colaborar junto al
-                  equipo de FUBE.
+                  A continuación se te permitirá editar toda la información y
+                  rol de Gonzalo en el sistema.
                 </Text>
               </Box>
               <Tabs
