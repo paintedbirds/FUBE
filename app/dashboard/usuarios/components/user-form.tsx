@@ -109,7 +109,7 @@ export const UserForm: FC<UserFormProps> = ({
           <Select
             id="user_type"
             placeholder="Tipo de usuario"
-            value={formData?.type}
+            value={formData?.user_type}
             {...register('user_type')}
             onChange={handleFields}
           >
