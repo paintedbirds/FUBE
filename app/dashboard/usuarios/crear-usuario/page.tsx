@@ -4,7 +4,6 @@ import {
   Box,
   Drawer,
   DrawerContent,
-  DrawerHeader,
   DrawerBody,
   useDisclosure,
   Text,
@@ -19,41 +18,41 @@ import {
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { CreateUserPreview } from '@/app/components/create-user-preview';
-import { UserForm } from '../components/user-form';
 import { User } from '@/utils/types';
+import { UserForm } from '../components/user-form';
+import { UserPreview } from '../components/user-preview';
 
 export default function UserCreation() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const [isDataValid, setIsDataValid] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [disablePreviewTab, setDisablePreviewTab] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
   const [user, setUser] = useState<User>();
 
   useEffect(onOpen, [onOpen]);
 
-  useEffect(() => {
-    if (isDataValid) {
-      setTabIndex(1);
-    }
-  }, [isDataValid]);
+  const handleTabsChange = (index: number) => {
+    setTabIndex(index);
+  };
 
   const onCloseDrawer = () => {
     onClose();
     router.push('/dashboard/usuarios');
   };
 
-  const onValidated = (user: User) => {
-    setUser(user);
+  const onValidated = (data: User) => {
+    setUser(data);
+    setDisablePreviewTab(false);
+    setTabIndex(1);
   };
 
   const onEdit = () => {
     setTabIndex(0);
-    setIsDataValid(false);
+    setDisablePreviewTab(true);
   };
 
-  const handleTabsChange = (index: number) => {
-    setTabIndex(index);
+  const onCreateUser = () => {
+    alert('user created');
   };
 
   return (
@@ -66,14 +65,6 @@ export default function UserCreation() {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader>
-            <Text fontSize="sm" fontWeight="semibold">
-              <Text color="#808080" as="span" fontWeight="thin">
-                Dashboard / Usuarios
-              </Text>{' '}
-              / Crear usuario
-            </Text>
-          </DrawerHeader>
           <DrawerBody>
             <VStack gap={10}>
               <Box>
@@ -93,18 +84,26 @@ export default function UserCreation() {
                 onChange={handleTabsChange}
               >
                 <TabList>
-                  <Tab isDisabled={isDataValid}>Completar datos</Tab>
-                  <Tab isDisabled={!isDataValid}>Confirmar datos</Tab>
+                  <Tab isDisabled={!disablePreviewTab}>Completar datos</Tab>
+                  <Tab isDisabled={disablePreviewTab}>Confirmar datos</Tab>
                 </TabList>
                 <TabPanels marginTop="1rem">
                   <TabPanel>
-                    <UserForm user={user} onCancel={onCloseDrawer} onValidated={onValidated} />
+                    <UserForm
+                      user={user}
+                      onCancel={onCloseDrawer}
+                      onValidated={onValidated}
+                    />
                   </TabPanel>
                   <TabPanel>
-                    <CreateUserPreview
-                      onCancel={onCloseDrawer}
-                      onEdit={onEdit}
-                    />
+                    {user && (
+                      <UserPreview
+                        onCancel={onCloseDrawer}
+                        onConfirm={onCreateUser}
+                        onEdit={onEdit}
+                        user={user}
+                      />
+                    )}
                   </TabPanel>
                 </TabPanels>
               </Tabs>

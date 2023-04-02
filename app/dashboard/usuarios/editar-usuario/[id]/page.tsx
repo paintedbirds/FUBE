@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { CreateUserForm } from '@/app/components/create-user-form';
-import { CreateUserPreview } from '@/app/components/create-user-preview';
+import { CreateUserPreview } from '@/app/dashboard/usuarios/components/user-preview';
 
 export default function UserEditByIDPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();

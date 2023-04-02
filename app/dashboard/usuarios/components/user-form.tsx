@@ -5,10 +5,8 @@ import {
   Button,
   Divider,
   FormControl,
-  FormLabel,
   HStack,
   Input,
-  Select,
   VStack,
 } from '@chakra-ui/react';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -31,12 +29,12 @@ export const UserForm: FC<UserFormProps> = ({
     handleSubmit,
     formState: { isSubmitting },
   } = useForm();
-  const [formData, setFormData] = useState<User>();
+  const [formData, setFormData] = useState(user);
 
   const handleFields = (event: FormEvent) => {
     const { id, value } = event.target as HTMLInputElement;
     const newData = {
-      ...user,
+      ...formData,
       [id]: value,
     };
     setFormData(newData as User);
@@ -47,29 +45,8 @@ export const UserForm: FC<UserFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <VStack gap={3} width="100%">
-        <FormControl>
-          <FormLabel htmlFor="username">Nombre de usuario</FormLabel>
-          <Input
-            id="username"
-            placeholder="Nombre de usuario"
-            {...register('username')}
-            value={formData?.username}
-            onChange={handleFields}
-          />
-        </FormControl>
-
-        <FormControl>
-          <Input
-            id="password"
-            placeholder="Contraseña"
-            value={formData?.password}
-            {...register('password')}
-            onChange={handleFields}
-          />
-        </FormControl>
-
         <FormControl>
           <Input
             id="first_name"
@@ -77,6 +54,9 @@ export const UserForm: FC<UserFormProps> = ({
             value={formData?.first_name}
             {...register('first_name')}
             onChange={handleFields}
+            required
+            autoComplete="off"
+            type="text"
           />
         </FormControl>
 
@@ -87,21 +67,61 @@ export const UserForm: FC<UserFormProps> = ({
             value={formData?.last_name}
             {...register('last_name')}
             onChange={handleFields}
+            required
+            autoComplete="off"
           />
         </FormControl>
 
         <FormControl>
+          <Input
+            id="username"
+            placeholder="Nombre de usuario"
+            {...register('username')}
+            value={formData?.username}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+
+        <FormControl>
+          <Input
+            id="email"
+            placeholder="Email"
+            value={formData?.email}
+            {...register('email')}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+
+        <FormControl>
+          <Input
+            id="password"
+            placeholder="Contraseña"
+            value={formData?.password}
+            {...register('password')}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+
+        {/* <FormControl>
           <Select
             id="area"
             placeholder="Área"
             value={formData?.area}
             {...register('area')}
             onChange={handleFields}
+            required
+            autoComplete="off"
           >
             <option value="legal">Legal</option>
             <option value="psicologia">Psicologia</option>
-            <option value="social">social</option>
-            <option value="social">administrativa</option>
+            <option value="social">Social</option>
+            <option value="social">Administrativa</option>
           </Select>
         </FormControl>
 
@@ -112,6 +132,8 @@ export const UserForm: FC<UserFormProps> = ({
             value={formData?.user_type}
             {...register('user_type')}
             onChange={handleFields}
+            required
+            autoComplete="off"
           >
             <option value="abogada_admin">Abogada Admin</option>
             <option value="abogada_asignada">Abogada Asignada</option>
@@ -122,7 +144,7 @@ export const UserForm: FC<UserFormProps> = ({
             <option value="cordinadora">Cordinadora</option>
             <option value="ceo">CEO</option>
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <Divider />
         <HStack justify="space-between" width="100%">
