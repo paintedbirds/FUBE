@@ -1,5 +1,4 @@
-import { ObjectTableActionButtons } from '@/app/components/object-table/object-table-action-buttons';
-import { MainActionButtonProps, Users } from '@/utils/types';
+import { useEffect, useState } from 'react';
 import { EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
 import {
   TableContainer,
@@ -14,11 +13,30 @@ import {
   Avatar,
   VStack,
 } from '@chakra-ui/react';
-
 import { useRouter } from 'next/navigation';
+
+import { ObjectTableActionButtons } from '@/app/components/object-table/object-table-action-buttons';
+import { getUsers } from '@/networking/services';
+import { MainActionButtonProps, Users } from '@/utils/types';
+
+const fetchUsers = async () => {
+  try {
+    const response = await getUsers();
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const UsersList = () => {
   const router = useRouter();
+  const [users, setUsers] = useState<Users>([]);
+
+  useEffect(() => {
+    fetchUsers().then((data) => setUsers(data as Users));
+  }, []);
 
   const getActionButtons = (id: number): MainActionButtonProps[] => [
     {
@@ -61,165 +79,38 @@ export const UsersList = () => {
           </Tr>
         </Thead>
         <Tbody gap="3">
-          {users.map((user) => (
-            <Tr key={user.id}>
-              <Td>{user.id}</Td>
-              <Td>
-                <HStack align="flex-start">
-                  <Avatar
-                    name={`${user.first_name} ${user.last_name}`}
-                    src="https://bit.ly/broken-link"
-                    size="sm"
+          {users.length > 0 ? (
+            users.map((user) => (
+              <Tr key={user.id}>
+                <Td>{user.id}</Td>
+                <Td>
+                  <HStack align="flex-start">
+                    <Avatar
+                      name={`${user.first_name} ${user.last_name}`}
+                      src="https://bit.ly/broken-link"
+                      size="sm"
+                    />
+                    <VStack width="100%" align="flex-start">
+                      <Text fontSize="sm">{user.first_name}</Text>
+                      <Text color="#808080" fontSize="sm">
+                        {user.last_name}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Td>
+                <Td>{user.email}</Td>
+                <Td>
+                  <ObjectTableActionButtons
+                    buttons={getActionButtons(user.id)}
                   />
-                  <VStack width="100%" align="flex-start">
-                    <Text fontSize="sm">{user.first_name}</Text>
-                    <Text color="#808080" fontSize="sm">
-                      {user.last_name}
-                    </Text>
-                  </VStack>
-                </HStack>
-              </Td>
-              <Td>{user.email}</Td>
-              <Td>
-                <ObjectTableActionButtons buttons={getActionButtons(user.id)} />
-              </Td>
-            </Tr>
-          ))}
+                </Td>
+              </Tr>
+            ))
+          ) : (
+            <Tr><Td>Sin usuarios</Td></Tr>
+          )}
         </Tbody>
       </Table>
     </TableContainer>
   );
 };
-
-const users: Users = [
-  {
-    id: 1233,
-    email: 'alegongon@gmail.com',
-    first_name: 'Alejandro',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Gonzalez',
-    password: '*********',
-    user_permissions: [],
-    username: 'ale.gongon',
-  },
-  {
-    id: 1234,
-    email: 'rm.derigo@gmail.com',
-    first_name: 'Ruben',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Derigo',
-    password: '*********',
-    user_permissions: [],
-    username: 'ruben.derigo',
-  },
-  {
-    id: 1233,
-    email: 'alegongon@gmail.com',
-    first_name: 'Alejandro',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Gonzalez',
-    password: '*********',
-    user_permissions: [],
-    username: 'ale.gongon',
-  },
-  {
-    id: 1234,
-    email: 'rm.derigo@gmail.com',
-    first_name: 'Ruben',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Derigo',
-    password: '*********',
-    user_permissions: [],
-    username: 'ruben.derigo',
-  },
-  {
-    id: 1233,
-    email: 'alegongon@gmail.com',
-    first_name: 'Alejandro',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Gonzalez',
-    password: '*********',
-    user_permissions: [],
-    username: 'ale.gongon',
-  },
-  {
-    id: 1234,
-    email: 'rm.derigo@gmail.com',
-    first_name: 'Ruben',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Derigo',
-    password: '*********',
-    user_permissions: [],
-    username: 'ruben.derigo',
-  },
-  {
-    id: 1233,
-    email: 'alegongon@gmail.com',
-    first_name: 'Alejandro',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Gonzalez',
-    password: '*********',
-    user_permissions: [],
-    username: 'ale.gongon',
-  },
-  {
-    id: 1234,
-    email: 'rm.derigo@gmail.com',
-    first_name: 'Ruben',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Derigo',
-    password: '*********',
-    user_permissions: [],
-    username: 'ruben.derigo',
-  },
-  {
-    id: 1233,
-    email: 'alegongon@gmail.com',
-    first_name: 'Alejandro',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Gonzalez',
-    password: '*********',
-    user_permissions: [],
-    username: 'ale.gongon',
-  },
-  {
-    id: 1234,
-    email: 'rm.derigo@gmail.com',
-    first_name: 'Ruben',
-    groups: [],
-    is_active: true,
-    is_staff: false,
-    is_superuser: false,
-    last_name: 'Derigo',
-    password: '*********',
-    user_permissions: [],
-    username: 'ruben.derigo',
-  },
-];

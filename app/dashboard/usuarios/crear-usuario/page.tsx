@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { User } from '@/utils/types';
 import { UserForm } from '../components/user-form';
 import { UserPreview } from '../components/user-preview';
+import { createUser, UsersRequestDto } from '@/networking/services';
 
 export default function UserCreation() {
   const router = useRouter();
@@ -50,8 +51,12 @@ export default function UserCreation() {
   };
 
   const onCreateUser = () => {
-    // TODO: create user and push route to view user
-    alert('user created');
+    try {
+      createUser(user as unknown as UsersRequestDto);
+    } catch (error) {
+      alert('fallo flaco...');
+      console.log(error);
+    }
   };
 
   return (
