@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import { AddIcon, EditIcon, ViewIcon } from '@chakra-ui/icons';
 
-import { DataItem, MainActionButtonProps } from '@/types/types';
+import { DataItem, MainActionButtonProps } from '@/types';
 import { ObjectTable } from '@/components/object-table';
 import { ObjectTabs } from '@/components/object-tabs';
 

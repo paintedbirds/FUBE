@@ -3,14 +3,18 @@
 import { useEffect, useState } from 'react';
 import {
   Box,
-  Flex,
-  InputGroup,
-  Text,
-  Input,
   Button,
-  InputRightAddon,
-  Checkbox,
+  // Checkbox,
   Container,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
 import { EmailIcon, LockIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
@@ -28,21 +32,39 @@ interface LoginFormValues {
 }
 
 const loginFormSchema = z.object({
-  username: z.string().nonempty(),
-  password: z.string().nonempty(),
+  username: z.string().nonempty('Ingrese su correo para continuar'),
+  password: z.string().nonempty('Ingrese su contraseña para continuar'),
 });
 
 export default function LoginPage() {
-  const { handleSubmit, register } = useForm<LoginFormValues>({
+  const { handleSubmit, register, formState } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
   });
 
-  const onSubmit = ({ username, password }: LoginFormValues) => {
+  const toast = useToast();
+
+  const [loginError, setLoginError] = useState('');
+
+  const onSubmit = async ({ username, password }: LoginFormValues) => {
+    setLoginError('');
+
     signIn('credentials', {
       username: username,
       password: password,
       redirect: false,
       // callbackUrl: DASHBOARD_HOME_PATH,
+    }).then((response) => {
+      if (response?.status === 401) {
+        toast({
+          title: 'Error de inicio de sesión',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+        setLoginError(
+          'No se encontró usuario. Verifique sus datos e intente de nuevo'
+        );
+      }
     });
   };
 
@@ -114,14 +136,11 @@ export default function LoginPage() {
                       niños.
                     </Text>
                   </Box>
-
-                  <Flex direction="column" gap="2">
-                    <Text fontSize={16} fontWeight={700}>
-                      Correo electronico*
-                    </Text>
+                  <FormControl isInvalid={Boolean(formState.errors.username)}>
+                    <FormLabel>Correo electronico</FormLabel>
                     <InputGroup>
                       <Input
-                        placeholder="Ingresa tu correo..."
+                        placeholder="Ingresa tu correo"
                         id="username"
                         {...register('username')}
                       />
@@ -129,15 +148,15 @@ export default function LoginPage() {
                         <EmailIcon />
                       </InputRightAddon>
                     </InputGroup>
-                  </Flex>
-
-                  <Flex direction="column" gap="2">
-                    <Text fontSize={16} fontWeight={700}>
-                      Contraseña*
-                    </Text>
+                    <FormErrorMessage>
+                      Ingrese su correo para continuar
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={Boolean(formState.errors.password)}>
+                    <FormLabel>Contraseña</FormLabel>
                     <InputGroup>
                       <Input
-                        placeholder="Ingresa tu contraseña..."
+                        placeholder="Ingresa tu contraseña"
                         type="password"
                         id="password"
                         {...register('password')}
@@ -146,11 +165,19 @@ export default function LoginPage() {
                         <LockIcon />
                       </InputRightAddon>
                     </InputGroup>
-                  </Flex>
-
-                  <Checkbox size="sm">
+                    <FormErrorMessage>
+                      Ingrese su contraseña para continuar
+                    </FormErrorMessage>
+                  </FormControl>
+                  {/* <Checkbox size="sm">
                     <Text fontSize={12}>Guardar sesión</Text>
-                  </Checkbox>
+                  </Checkbox> */}
+
+                  {loginError ? (
+                    <Text as="div" color="#FA3E32">
+                      {loginError}
+                    </Text>
+                  ) : null}
 
                   <Button colorScheme="blue" size="lg" type="submit">
                     Iniciar sesión
