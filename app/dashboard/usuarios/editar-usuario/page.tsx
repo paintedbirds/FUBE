@@ -1,5 +1,5 @@
 'use client';
 
-export default function EditUserPage() {
+export default function UserEditPage() {
   return null;
 }

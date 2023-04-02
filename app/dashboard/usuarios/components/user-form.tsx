@@ -108,44 +108,6 @@ export const UserForm: FC<UserFormProps> = ({
           />
         </FormControl>
 
-        {/* <FormControl>
-          <Select
-            id="area"
-            placeholder="Área"
-            value={formData?.area}
-            {...register('area')}
-            onChange={handleFields}
-            required
-            autoComplete="off"
-          >
-            <option value="legal">Legal</option>
-            <option value="psicologia">Psicologia</option>
-            <option value="social">Social</option>
-            <option value="social">Administrativa</option>
-          </Select>
-        </FormControl>
-
-        <FormControl>
-          <Select
-            id="user_type"
-            placeholder="Tipo de usuario"
-            value={formData?.user_type}
-            {...register('user_type')}
-            onChange={handleFields}
-            required
-            autoComplete="off"
-          >
-            <option value="abogada_admin">Abogada Admin</option>
-            <option value="abogada_asignada">Abogada Asignada</option>
-            <option value="asistente_legal">Asistente Legal</option>
-            <option value="voluntario">Voluntario</option>
-            <option value="social_admin">Social Admin</option>
-            <option value="social_asignada">Social Asignada</option>
-            <option value="cordinadora">Cordinadora</option>
-            <option value="ceo">CEO</option>
-          </Select>
-        </FormControl> */}
-
         <Divider />
         <HStack justify="space-between" width="100%">
           <Button

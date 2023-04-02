@@ -4,7 +4,6 @@ import {
   Box,
   Drawer,
   DrawerContent,
-  DrawerHeader,
   DrawerBody,
   useDisclosure,
   Text,
@@ -17,98 +16,93 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { CreateUserForm } from '@/app/components/create-user-form';
-import { CreateUserPreview } from '@/app/dashboard/usuarios/components/user-preview';
+import { User } from '@/utils/types';
+import { UserForm } from '../../components/user-form';
+import { UserPreview } from '../../components/user-preview';
 
 export default function UserEditByIDPage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const [isDataValid, setIsDataValid] = useState(false);
+  const { isOpen, onClose } = useDisclosure({ isOpen: true });
+  const [disablePreviewTab, setDisablePreviewTab] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
+  const [user, setUser] = useState<User>();
 
-  useEffect(onOpen, [onOpen]);
-
-  useEffect(() => {
-    if (isDataValid) {
-      setTabIndex(1);
-    }
-  }, [isDataValid]);
+  const handleTabsChange = (index: number) => {
+    setTabIndex(index);
+  };
 
   const onCloseDrawer = () => {
     onClose();
     router.push('/dashboard/usuarios');
   };
 
-  const onEdit = () => {
+  const onEditData = () => {
     setTabIndex(0);
-    setIsDataValid(false);
+    setDisablePreviewTab(true);
   };
 
-  const handleTabsChange = (index: number) => {
-    setTabIndex(index);
+  const onValidated = (data: User) => {
+    setUser(data);
+    setDisablePreviewTab(false);
+    setTabIndex(1);
+  };
+
+  const onEditUser = () => {
+    // TODO: edit user and push route to view user
+    alert('user edited');
   };
 
   return (
-    <Box>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onCloseDrawer}
-        size="sm"
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>
-            <Text fontSize="sm" fontWeight="semibold">
-              <Text color="#808080" as="span" fontWeight="thin">
-                Dashboard / Usuarios
-              </Text>{' '}
-              / Editar usuario
-            </Text>
-          </DrawerHeader>
-          <DrawerBody>
-            <VStack gap={10}>
-              <Box>
-                <Text color="#2843B2" fontWeight="semibold" fontSize="2xl">
-                  Edición de Usuario
-                </Text>
-                <Text color="#808080" fontSize="sm">
-                  A continuación se te permitirá editar toda la información y
-                  rol de Gonzalo en el sistema.
-                </Text>
-              </Box>
-              <Tabs
-                variant="enclosed"
-                width="100%"
-                isFitted
-                index={tabIndex}
-                onChange={handleTabsChange}
-              >
-                <TabList>
-                  <Tab isDisabled={isDataValid}>Completar datos</Tab>
-                  <Tab isDisabled={!isDataValid}>Confirmar datos</Tab>
-                </TabList>
-                <TabPanels marginTop="1rem">
-                  <TabPanel>
-                    <CreateUserForm
-                      setIsDataValid={setIsDataValid}
+    <Drawer isOpen={isOpen} placement="right" onClose={onCloseDrawer} size="sm">
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerBody marginTop="3rem">
+          <VStack gap={10}>
+            <Box>
+              <Text color="#2843B2" fontWeight="semibold" fontSize="2xl">
+                Edición de Usuario
+              </Text>
+              <Text color="#808080" fontSize="sm">
+                A continuación se te permitirá editar toda la información y rol
+                de {user?.first_name} en el sistema.
+              </Text>
+            </Box>
+            <Tabs
+              variant="enclosed"
+              width="100%"
+              isFitted
+              index={tabIndex}
+              onChange={handleTabsChange}
+            >
+              <TabList>
+                <Tab isDisabled={!disablePreviewTab}>Completar datos</Tab>
+                <Tab isDisabled={disablePreviewTab}>Confirmar datos</Tab>
+              </TabList>
+              <TabPanels marginTop="1rem">
+                <TabPanel>
+                  <UserForm
+                    user={user}
+                    onCancel={onCloseDrawer}
+                    onValidated={onValidated}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  {user && (
+                    <UserPreview
                       onCancel={onCloseDrawer}
+                      onConfirm={onEditUser}
+                      onEdit={onEditData}
+                      user={user}
                     />
-                  </TabPanel>
-                  <TabPanel>
-                    <CreateUserPreview
-                      onCancel={onCloseDrawer}
-                      onEdit={onEdit}
-                    />
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
-            </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-    </Box>
+                  )}
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </VStack>
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
   );
 }
