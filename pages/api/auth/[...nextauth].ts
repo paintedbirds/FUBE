@@ -15,24 +15,25 @@ export const authConfig: AuthOptions = {
   },
   secret: SECRET,
   callbacks: {
+    // @ts-expect-error  unknown types unsafe
     async signIn({ user }) {
       if (user?.token) {
-        return true;
+        return user;
       }
       return false;
     },
-    // async jwt({ user }) {
-    //   // if (user && user?.token) {
-    //   //   token. = user.token as string;
-    //   //   token.email = user.email;
-    //   //   token.id = user.id;
-    //   // }
-    //   return user;
-    // },
-    // async session({ session, token }) {
-    //   session.token = token.accessToken || '';
-    //   return session;
-    // },
+    async jwt({ token, user }) {
+      if(user && user.token) {
+        token.user = user;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      // @ts-expect-error  unknown types unsafe
+      session.user = token.user;
+      return session;
+    },
   },
   providers: [
     CredentialsProvider({

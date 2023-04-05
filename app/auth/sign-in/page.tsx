@@ -22,9 +22,10 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import LogoFundation from '@/assets/logo.svg';
 import LogoFundationVariant from '@/assets/logo-variant.svg';
-// import { DASHBOARD_HOME_PATH } from '@/utils/constants';
+import { DASHBOARD_HOME_PATH } from '@/utils/constants';
 
 interface LoginFormValues {
   username: string;
@@ -40,6 +41,7 @@ export default function LoginPage() {
   const { handleSubmit, register, formState } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
   });
+  const router = useRouter();
 
   const toast = useToast();
 
@@ -52,10 +54,10 @@ export default function LoginPage() {
       username: username,
       password: password,
       redirect: false,
-      // callbackUrl: DASHBOARD_HOME_PATH,
     }).then((response) => {
       if (response?.status === 401) {
         toast({
+          position: 'top',
           title: 'Error de inicio de sesión',
           status: 'error',
           duration: 9000,
@@ -64,6 +66,18 @@ export default function LoginPage() {
         setLoginError(
           'No se encontró usuario. Verifique sus datos e intente de nuevo'
         );
+      }
+
+      if (response?.ok && response.status === 200) {
+        toast({
+          position: 'top',
+          title: '¡Inicio de sesión exitoso!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+
+        router.push(DASHBOARD_HOME_PATH);
       }
     });
   };

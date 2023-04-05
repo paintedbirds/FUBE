@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode, useRef } from 'react';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
+import { AuthRedirect } from './auth-redirect';
 
 export function Providers({
   children,
@@ -20,7 +21,9 @@ export function Providers({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient.current}>
         <CacheProvider>
-          <ChakraProvider>{children}</ChakraProvider>
+          <ChakraProvider>
+            <AuthRedirect>{children}</AuthRedirect>
+          </ChakraProvider>
         </CacheProvider>
       </QueryClientProvider>
     </SessionProvider>
