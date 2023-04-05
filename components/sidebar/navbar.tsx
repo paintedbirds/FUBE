@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
+import { signOut } from 'next-auth/react';
 import { BellIcon, CalendarIcon } from '@/assets/icons';
 
 export const Navbar = (props: FlexProps) => {
@@ -50,7 +51,7 @@ export const Navbar = (props: FlexProps) => {
             <MenuList bg="white" borderColor="gray.200">
               <MenuItem>Profile</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

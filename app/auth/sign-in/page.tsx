@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
-  // Checkbox,
   Container,
   Flex,
   FormControl,
@@ -183,9 +182,6 @@ export default function LoginPage() {
                       Ingrese su contraseña para continuar
                     </FormErrorMessage>
                   </FormControl>
-                  {/* <Checkbox size="sm">
-                    <Text fontSize={12}>Guardar sesión</Text>
-                  </Checkbox> */}
 
                   {loginError ? (
                     <Text as="div" color="#FA3E32">

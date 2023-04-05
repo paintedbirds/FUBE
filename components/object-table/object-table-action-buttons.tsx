@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Flex } from '@chakra-ui/react';
 
 import { ObjectMainActionButton } from '../object-main-action-button';
-import { MainActionButtonProps } from '@/types/types';
+import { MainActionButtonProps } from '@/types';
 
 interface ObjectTableActionButtons {
   buttons: MainActionButtonProps[];
