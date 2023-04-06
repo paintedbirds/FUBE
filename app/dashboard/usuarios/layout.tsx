@@ -27,10 +27,10 @@ export default function UsersLayout({ children }: UsersLayout) {
     <main>
       <Flex direction="column" gap="8">
         <Box>
-          <Text fontWeight="bold" fontSize="3xl">
+          <Text fontWeight="bold" fontSize="4xl">
             Administración de Usuarios
           </Text>
-          <Text color="#808080" fontSize="lg" width="500px">
+          <Text color="#808080" fontSize="xl">
             Visualiza a todos los usuarios de FUBE organizados por sus
             respectivas áreas
           </Text>

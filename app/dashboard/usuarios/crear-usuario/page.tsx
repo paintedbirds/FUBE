@@ -16,13 +16,12 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { User } from '@/utils/types';
 import { UserForm } from '../components/user-form';
 import { UserPreview } from '../components/user-preview';
 import { createUser, UsersRequestDto } from '@/networking/services';
-import { usersCache } from '../utils/cache';
 
 export default function UserCreation() {
   const router = useRouter();
@@ -30,10 +29,6 @@ export default function UserCreation() {
   const [disablePreviewTab, setDisablePreviewTab] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
   const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    console.log(usersCache);
-  }, []);
 
   const handleTabsChange = (index: number) => {
     setTabIndex(index);
@@ -58,9 +53,13 @@ export default function UserCreation() {
   const onCreateUser = async () => {
     try {
       const response = await createUser(user as unknown as UsersRequestDto);
-      console.log(response);
+      if(response?.ok) {
+        alert("Usuario creado.");
+      }
     } catch (error) {
-      console.log(error);
+      alert("Hubo un error al crear el usuario...");
+    } finally {
+      onCloseDrawer();
     }
   };
 

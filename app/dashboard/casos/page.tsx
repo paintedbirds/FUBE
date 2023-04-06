@@ -46,30 +46,27 @@ export default function CasosPage() {
 
   return (
     <main>
-      <Flex direction="column">
+      <Flex direction="column" gap="8">
         <Box width="full">
           <Text fontWeight="bold" fontSize="4xl">
-            Seguimiento de Casos:
+            Seguimiento de Casos
           </Text>
           <Text color="#808080" fontSize="xl">
             Encuentra y realiza el seguimiento de todos los casos registrados en
             FUBE
           </Text>
         </Box>
-        <Flex marginTop="2.5rem" gap="60px">
-          <ObjectTabs tabs={tabs} tabContents={tabContents} />
-          <Button
-            bg="#2843B2"
-            color="white"
-            px="24px"
-            py="16px"
-            height="60px"
-            rightIcon={<AddIcon />}
-            onClick={handleRegisterClick}
-          >
-            Registrar caso
-          </Button>
-        </Flex>
+
+        <Button
+          marginInlineEnd="auto"
+          background="#2843B2"
+          color="white"
+          rightIcon={<AddIcon />}
+          onClick={handleRegisterClick}
+        >
+          Registrar caso
+        </Button>
+        <ObjectTabs tabs={tabs} tabContents={tabContents} />
       </Flex>
     </main>
   );

@@ -16,11 +16,25 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { getUsers } from '@/networking/services';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { User } from '@/utils/types';
 
 export default function ViewUser({ params }: never) {
   const router = useRouter();
   const { isOpen, onClose } = useDisclosure({ isOpen: true });
+  const [user, setUser] = useState<User>();
+  const { data, isLoading } = useQuery({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  });
   const { id } = params;
+
+  useEffect(() => {
+    const temp = data?.find((obj) => obj.id == id);
+    setUser(temp as User);
+  }, [isLoading, data, user]);
 
   const onCloseDrawer = () => {
     onClose();
@@ -40,15 +54,15 @@ export default function ViewUser({ params }: never) {
           <Flex justify="space-between" direction="column" height="100%">
             <Stack>
               <Avatar
-                name="Gonzalo Perez"
+                name={`${user?.first_name} ${user?.last_name}`}
                 src="https://bit.ly/broken-link"
                 size="xl"
               />
               <Text fontSize="xl" fontWeight="bold">
-                Gonzalo Perez{' '}
+                {`${user?.first_name} ${user?.last_name}`}{' '}
               </Text>
               <Text fontSize="xs" color="#808080">
-                gonzalezper@fube.com
+                {user?.email}
               </Text>
             </Stack>
 

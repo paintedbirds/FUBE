@@ -2,6 +2,8 @@
 export type Users = User[];
 
 export interface User {
+  ok?: boolean;
+  status?: number;
   area?: string;
   user_type?: string;
   date_joined?: string;

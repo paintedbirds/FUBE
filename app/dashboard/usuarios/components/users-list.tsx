@@ -82,7 +82,7 @@ export const UsersList = () => {
         </Thead>
         <Tbody gap="3">
           {users.length > 0 ? (
-            users.map((user) => (
+            users.filter((user) => user.first_name && user.last_name).map((user) => (
               <Tr key={user.id}>
                 <Td>{user.id}</Td>
                 <Td>

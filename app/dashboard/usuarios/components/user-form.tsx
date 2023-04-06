@@ -3,7 +3,6 @@
 import { FC, FormEvent, useState } from 'react';
 import {
   Button,
-  Checkbox,
   Divider,
   FormControl,
   HStack,
@@ -36,14 +35,19 @@ export const UserForm: FC<UserFormProps> = ({
     const { id, value } = event.target as HTMLInputElement;
     const newData: FieldValues = {
       ...formData,
+      is_staff: true,
+      is_superuser: false,
+      group_names: [],
+      perm_codenames: [],
+      groups: [],
       [id]: value,
     };
 
     setFormData(newData as User);
   };
 
-  const onSubmit = (data: FieldValues) => {
-    onValidated(data as User);
+  const onSubmit = () => {
+    onValidated(formData as User);
   };
 
   return (
@@ -105,7 +109,7 @@ export const UserForm: FC<UserFormProps> = ({
             autoComplete="off"
           />
         </FormControl>
-        <VStack justify="flex-start" width="100%">
+        {/* <VStack justify="flex-start" width="100%">
           <FormControl>
             <Checkbox
               id="is_staff"
@@ -126,7 +130,7 @@ export const UserForm: FC<UserFormProps> = ({
               Acceso total
             </Checkbox>
           </FormControl>
-        </VStack>
+        </VStack> */}
       </VStack>
 
       <Divider marginY="1rem" />
