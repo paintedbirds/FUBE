@@ -25,8 +25,8 @@ export default function UsersLayout({ children }: UsersLayout) {
 
   return (
     <main>
-      <Flex direction="column">
-        <Box width="full">
+      <Flex direction="column" gap="8">
+        <Box>
           <Text fontWeight="bold" fontSize="3xl">
             Administración de Usuarios
           </Text>
@@ -36,21 +36,18 @@ export default function UsersLayout({ children }: UsersLayout) {
           </Text>
         </Box>
 
-        <Flex justify="space-between" marginTop="2rem">
-          <ObjectTabs tabs={tabs} tabContents={tabContents} />
-          <Flex width="100%" justify="center">
-            <Button
-              background="#2843B2"
-              color="white"
-              rightIcon={<AddIcon />}
-              onClick={onCreateUser}
-            >
-              Crear Usuario
-            </Button>
-          </Flex>
-          {children}
-        </Flex>
+        <Button
+          marginInlineEnd="auto"
+          background="#2843B2"
+          color="white"
+          rightIcon={<AddIcon />}
+          onClick={onCreateUser}
+        >
+          Crear Usuario
+        </Button>
+        <ObjectTabs tabs={tabs} tabContents={tabContents} />
       </Flex>
+      {children}
     </main>
   );
 }

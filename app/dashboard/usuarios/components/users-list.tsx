@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
 import {
   TableContainer,
@@ -14,29 +13,23 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 
 import { ObjectTableActionButtons } from '@/app/components/object-table/object-table-action-buttons';
 import { getUsers } from '@/networking/services';
-import { MainActionButtonProps, Users } from '@/utils/types';
-
-const fetchUsers = async () => {
-  try {
-    const response = await getUsers();
-    if (response.status === 200) {
-      return response.data;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { MainActionButtonProps } from '@/utils/types';
 
 export const UsersList = () => {
   const router = useRouter();
-  const [users, setUsers] = useState<Users>([]);
-
-  useEffect(() => {
-    fetchUsers().then((data) => setUsers(data as Users));
-  }, []);
+  const {
+    isLoading,
+    isError,
+    data: users,
+    error,
+  } = useQuery({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  });
 
   const getActionButtons = (id: number): MainActionButtonProps[] => [
     {
@@ -54,6 +47,18 @@ export const UsersList = () => {
       color: '#3182CE',
     },
   ];
+
+  // TODO: remove when user feedback be implemented
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  // TODO: remove when user feedback be implemented
+  if (isError) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return <span>Error: {error?.message}</span>;
+  }
 
   return (
     <TableContainer
@@ -107,7 +112,9 @@ export const UsersList = () => {
               </Tr>
             ))
           ) : (
-            <Tr><Td>Sin usuarios</Td></Tr>
+            <Tr>
+              <Td>Sin usuarios</Td>
+            </Tr>
           )}
         </Tbody>
       </Table>

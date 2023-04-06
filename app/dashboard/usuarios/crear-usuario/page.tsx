@@ -16,12 +16,13 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { User } from '@/utils/types';
 import { UserForm } from '../components/user-form';
 import { UserPreview } from '../components/user-preview';
 import { createUser, UsersRequestDto } from '@/networking/services';
+import { usersCache } from '../utils/cache';
 
 export default function UserCreation() {
   const router = useRouter();
@@ -29,6 +30,10 @@ export default function UserCreation() {
   const [disablePreviewTab, setDisablePreviewTab] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
   const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    console.log(usersCache);
+  }, []);
 
   const handleTabsChange = (index: number) => {
     setTabIndex(index);
@@ -50,9 +55,10 @@ export default function UserCreation() {
     setDisablePreviewTab(true);
   };
 
-  const onCreateUser = () => {
+  const onCreateUser = async () => {
     try {
-      createUser(user as unknown as UsersRequestDto);
+      const response = await createUser(user as unknown as UsersRequestDto);
+      console.log(response);
     } catch (error) {
       alert('fallo flaco...');
       console.log(error);
@@ -60,12 +66,12 @@ export default function UserCreation() {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onCloseDrawer} size="sm">
+    <Drawer isOpen={isOpen} placement="right" onClose={onCloseDrawer} size="lg">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerBody marginTop="3rem">
           <VStack gap={10}>
-            <Box>
+            <Box width="100%">
               <Text color="#2843B2" fontWeight="semibold" fontSize="2xl">
                 Crear un usuario
               </Text>
@@ -77,7 +83,6 @@ export default function UserCreation() {
             <Tabs
               variant="enclosed"
               width="100%"
-              isFitted
               index={tabIndex}
               onChange={handleTabsChange}
             >

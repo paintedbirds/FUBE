@@ -2,8 +2,11 @@
 
 import { CacheProvider } from '@chakra-ui/next-js';
 import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import './globals.css';
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -15,7 +18,11 @@ export default function RootLayout({
       <head />
       <body>
         <CacheProvider>
-          <ChakraProvider>{children}</ChakraProvider>
+          <ChakraProvider>
+            <QueryClientProvider client={queryClient}>
+              {children}
+            </QueryClientProvider>
+          </ChakraProvider>
         </CacheProvider>
       </body>
     </html>
