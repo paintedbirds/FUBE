@@ -34,13 +34,10 @@ export const UserForm: FC<UserFormProps> = ({
 
   const handleFields = (event: FormEvent) => {
     const { id, value } = event.target as HTMLInputElement;
-    const newData: FieldValues = { ...formData };
-
-    if (['is_staff', 'is_superuser'].includes(id)) {
-      //
-    } else {
-      newData[id] = value;
-    }
+    const newData: FieldValues = {
+      ...formData,
+      [id]: value,
+    };
 
     setFormData(newData as User);
   };
@@ -51,74 +48,70 @@ export const UserForm: FC<UserFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-      <HStack align="flex-start" gap="20">
-        <VStack gap={3}>
-          <FormControl>
-            <Input
-              id="first_name"
-              placeholder="Nombre"
-              value={formData?.first_name}
-              {...register('first_name')}
-              onChange={handleFields}
-              required
-              autoComplete="off"
-              type="text"
-            />
-          </FormControl>
-          <FormControl>
-            <Input
-              id="last_name"
-              placeholder="Apellido"
-              value={formData?.last_name}
-              {...register('last_name')}
-              onChange={handleFields}
-              required
-              autoComplete="off"
-            />
-          </FormControl>
-          <FormControl>
-            <Input
-              id="username"
-              placeholder="Nombre de usuario"
-              {...register('username')}
-              value={formData?.username}
-              onChange={handleFields}
-              required
-              autoComplete="off"
-            />
-          </FormControl>
-          <FormControl>
-            <Input
-              id="email"
-              placeholder="Email"
-              value={formData?.email}
-              {...register('email')}
-              onChange={handleFields}
-              required
-              autoComplete="off"
-            />
-          </FormControl>
-          <FormControl>
-            <Input
-              id="password"
-              placeholder="Contraseña"
-              value={formData?.password}
-              {...register('password')}
-              onChange={handleFields}
-              required
-              autoComplete="off"
-            />
-          </FormControl>
-        </VStack>
-
-        <VStack justify="flex-start" alignItems="flex-start" height="100%">
+      <VStack gap={3} width="100%">
+        <FormControl>
+          <Input
+            id="first_name"
+            placeholder="Nombre"
+            value={formData?.first_name}
+            {...register('first_name')}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+            type="text"
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            id="last_name"
+            placeholder="Apellido"
+            value={formData?.last_name}
+            {...register('last_name')}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            id="username"
+            placeholder="Nombre de usuario"
+            {...register('username')}
+            value={formData?.username}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            id="email"
+            placeholder="Email"
+            value={formData?.email}
+            {...register('email')}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            id="password"
+            placeholder="Contraseña"
+            value={formData?.password}
+            {...register('password')}
+            onChange={handleFields}
+            required
+            autoComplete="off"
+          />
+        </FormControl>
+        <VStack justify="flex-start" width="100%">
           <FormControl>
             <Checkbox
               id="is_staff"
-              isChecked={formData?.is_staff}
               {...register('is_staff')}
               onChange={handleFields}
-              autoComplete="off"
+              size="sm"
             >
               Acceso al area de administración
             </Checkbox>
@@ -126,20 +119,20 @@ export const UserForm: FC<UserFormProps> = ({
           <FormControl>
             <Checkbox
               id="is_superuser"
-              isChecked={formData?.is_superuser}
               {...register('is_superuser')}
               onChange={handleFields}
-              autoComplete="off"
+              size="sm"
             >
               Acceso total
             </Checkbox>
           </FormControl>
         </VStack>
-      </HStack>
+      </VStack>
 
-      <Divider marginY="2rem" />
-      <HStack justify="flex-end" align="flex-end" width="100%">
+      <Divider marginY="1rem" />
+      <HStack justify="center" align="flex-end" width="100%">
         <Button
+          width="50%"
           variant="outline"
           size="md"
           borderColor="#2843B2"
@@ -149,6 +142,7 @@ export const UserForm: FC<UserFormProps> = ({
           Cancelar
         </Button>
         <Button
+          width="50%"
           variant="solid"
           size="md"
           background="#2843B2"

@@ -15,7 +15,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
-import { ObjectTableActionButtons } from '@/app/components/object-table/object-table-action-buttons';
+import { ObjectTableActionButtons } from '@/components/object-table/object-table-action-buttons';
 import { getUsers } from '@/networking/services';
 import { MainActionButtonProps } from '@/utils/types';
 
@@ -25,7 +25,6 @@ export const UsersList = () => {
     isLoading,
     isError,
     data: users,
-    error,
   } = useQuery({
     queryKey: ['users'],
     queryFn: getUsers,
@@ -55,9 +54,7 @@ export const UsersList = () => {
 
   // TODO: remove when user feedback be implemented
   if (isError) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return <span>Error: {error?.message}</span>;
+    return <span>Error to fetch users.</span>;
   }
 
   return (

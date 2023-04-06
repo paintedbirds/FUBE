@@ -5,7 +5,7 @@ import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
 
-import { ObjectTabs } from '@/app/components/object-tabs';
+import { ObjectTabs } from '@/components/object-tabs';
 import { UsersList } from './components/users-list';
 
 const tabs: string[] = ['Todos'];

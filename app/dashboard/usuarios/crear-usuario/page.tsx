@@ -60,13 +60,12 @@ export default function UserCreation() {
       const response = await createUser(user as unknown as UsersRequestDto);
       console.log(response);
     } catch (error) {
-      alert('fallo flaco...');
       console.log(error);
     }
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onCloseDrawer} size="lg">
+    <Drawer isOpen={isOpen} placement="right" onClose={onCloseDrawer} size="sm">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerBody marginTop="3rem">
@@ -85,6 +84,7 @@ export default function UserCreation() {
               width="100%"
               index={tabIndex}
               onChange={handleTabsChange}
+              isFitted
             >
               <TabList>
                 <Tab isDisabled={!disablePreviewTab}>Completar datos</Tab>
