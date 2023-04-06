@@ -3,7 +3,7 @@
 import { ReactNode, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { ObjectTabs } from '@/app/components/object-tabs';
+import { ObjectTabs } from '@/components/object-tabs';
 import { AggressorForm } from './components/aggressor-form';
 import { ReporterForm } from './components/reporter-form';
 import { NNAForm } from './components/nna-form';
