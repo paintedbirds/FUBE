@@ -1,22 +1,21 @@
-'use client';
-
-import { CacheProvider } from '@chakra-ui/next-js';
-import { ChakraProvider } from '@chakra-ui/react';
+import { getServerSession } from 'next-auth';
+import { authConfig } from '@/pages/api/auth/[...nextauth]';
+import { Providers } from '@/components/providers';
 
 import './globals.css';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authConfig);
+
   return (
-    <html lang="en">
+    <html lang="es">
       <head />
       <body>
-        <CacheProvider>
-          <ChakraProvider>{children}</ChakraProvider>
-        </CacheProvider>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );

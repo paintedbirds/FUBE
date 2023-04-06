@@ -4,9 +4,9 @@ import { ReactNode } from 'react';
 import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import { AddIcon, EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
 
-import { DataItem, MainActionButtonProps } from '@/app/types';
-import { ObjectTable } from '@/app/components/object-table';
-import { ObjectTabs } from '@/app/components/object-tabs';
+import { DataItem, MainActionButtonProps } from '@/types';
+import { ObjectTable } from '@/components/object-table';
+import { ObjectTabs } from '@/components/object-tabs';
 
 const tabs: string[] = [
   'Todos',
