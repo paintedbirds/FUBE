@@ -17,12 +17,14 @@ interface UserFormProps {
   user?: User;
   onCancel: () => void;
   onValidated: (user: User) => void;
+  isEditingMode?: boolean
 }
 
 export const UserForm: FC<UserFormProps> = ({
   user,
   onCancel,
   onValidated,
+  isEditingMode
 }) => {
   const {
     register,
@@ -56,7 +58,7 @@ export const UserForm: FC<UserFormProps> = ({
         <FormControl>
           <Input
             id="first_name"
-            placeholder="Nombre"
+            placeholder="Nombre*"
             value={formData?.first_name}
             {...register('first_name')}
             onChange={handleFields}
@@ -68,7 +70,7 @@ export const UserForm: FC<UserFormProps> = ({
         <FormControl>
           <Input
             id="last_name"
-            placeholder="Apellido"
+            placeholder="Apellido*"
             value={formData?.last_name}
             {...register('last_name')}
             onChange={handleFields}
@@ -79,7 +81,7 @@ export const UserForm: FC<UserFormProps> = ({
         <FormControl>
           <Input
             id="username"
-            placeholder="Nombre de usuario"
+            placeholder="Nombre de usuario*"
             {...register('username')}
             value={formData?.username}
             onChange={handleFields}
@@ -90,7 +92,7 @@ export const UserForm: FC<UserFormProps> = ({
         <FormControl>
           <Input
             id="email"
-            placeholder="Email"
+            placeholder="Email*"
             value={formData?.email}
             {...register('email')}
             onChange={handleFields}
@@ -101,11 +103,11 @@ export const UserForm: FC<UserFormProps> = ({
         <FormControl>
           <Input
             id="password"
-            placeholder="Contraseña"
+            placeholder={isEditingMode ? "Contraseña" : "Contraseña*"}
             value={formData?.password}
             {...register('password')}
             onChange={handleFields}
-            required
+            required={!isEditingMode}
             autoComplete="off"
           />
         </FormControl>

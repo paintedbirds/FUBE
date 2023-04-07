@@ -12,6 +12,7 @@ interface UserPreviewProps {
   onConfirm: Callback;
   onEdit: Callback;
   user: User;
+  isEditingMode?: boolean
 }
 
 export const UserPreview: FC<UserPreviewProps> = ({
@@ -19,6 +20,7 @@ export const UserPreview: FC<UserPreviewProps> = ({
   onConfirm,
   onEdit,
   user,
+  isEditingMode
 }) => (
   <>
     <VStack gap={10} align="flex-start">
@@ -78,10 +80,10 @@ export const UserPreview: FC<UserPreviewProps> = ({
         background="#38A169"
         color="#fff"
         width="50%"
-        rightIcon={<AddIcon />}
+        rightIcon={!isEditingMode ? <AddIcon /> : undefined}
         onClick={onConfirm}
       >
-        Crear usuario
+        {isEditingMode ? ("Guardar") : ("Crear usuario")}
       </Button>
     </HStack>
   </>

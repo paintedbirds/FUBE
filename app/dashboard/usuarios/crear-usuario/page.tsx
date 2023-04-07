@@ -14,6 +14,7 @@ import {
   DrawerOverlay,
   VStack,
   TabPanel,
+  useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -29,6 +30,7 @@ export default function UserCreation() {
   const [disablePreviewTab, setDisablePreviewTab] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
   const [user, setUser] = useState<User>();
+  const toast = useToast();
 
   const handleTabsChange = (index: number) => {
     setTabIndex(index);
@@ -53,13 +55,33 @@ export default function UserCreation() {
   const onCreateUser = async () => {
     try {
       const response = await createUser(user as unknown as UsersRequestDto);
-      if(response?.ok) {
-        alert("Usuario creado.");
+      if (response.status === 201) {
+        toast({
+          position: 'top',
+          title: '¡Usuario creado con éxito!',
+          description: 'Ya puedes visualizar su cuenta.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+        router.push(`/dashboard/usuarios/${response.data.user.id}`);
+        return;
       }
+      toast({
+        position: 'top',
+        title: 'Error al crear al usuario.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
-      alert("Hubo un error al crear el usuario...");
-    } finally {
-      onCloseDrawer();
+      toast({
+        position: 'top',
+        title: 'Error al crear al usuario.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 

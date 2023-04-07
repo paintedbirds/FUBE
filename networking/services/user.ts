@@ -13,10 +13,22 @@ export interface UsersRequestDto {
   perm_codenames: string[];
 }
 
-export const getUsers = async () => {
-  return (await httpClient.get<Users>('/users/')).data;
+export const getUsers = () => {
+  return httpClient.get<Users>('/users/');
 };
 
-export const createUser = async (user: UsersRequestDto) => {
-  return (await (httpClient.post<User>('/users/create/', user))).data;
+export const getUserByID = (id: number) => {
+  return httpClient.get<User>(`/users/${id}/`);
+};
+
+export const createUser = (user: UsersRequestDto) => {
+  return httpClient.post('/users/create/', user);
+};
+
+export const updateUser  = async (id: number, user: UsersRequestDto) => {
+  return httpClient.put<User>(`/users/${id}/`, user);
+};
+
+export const deleteUser = async (id: number) => {
+  return httpClient.delete(`/users/${id}/`);
 };

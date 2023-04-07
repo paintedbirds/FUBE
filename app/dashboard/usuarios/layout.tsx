@@ -25,6 +25,7 @@ export default function UsersLayout({ children }: UsersLayout) {
 
   return (
     <main>
+      {children}
       <Flex direction="column" gap="8">
         <Box>
           <Text fontWeight="bold" fontSize="4xl">
@@ -47,7 +48,6 @@ export default function UsersLayout({ children }: UsersLayout) {
         </Button>
         <ObjectTabs tabs={tabs} tabContents={tabContents} />
       </Flex>
-      {children}
     </main>
   );
 }
