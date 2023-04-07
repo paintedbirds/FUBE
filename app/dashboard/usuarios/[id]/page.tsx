@@ -21,6 +21,7 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { deleteUser, getUserByID } from '@/networking/services';
 import { useState, useEffect } from 'react';
 import { User } from '@/utils/types';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function ViewUser({ params }: never) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function ViewUser({ params }: never) {
   const [showConfrimMessage, setShowConfrimMessage] = useState(false);
   const { id } = params;
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +70,7 @@ export default function ViewUser({ params }: never) {
           duration: 9000,
           isClosable: true,
         });
+        queryClient.invalidateQueries({ queryKey: ['users'] });
         router.push(`/dashboard/usuarios`);
         return;
       }

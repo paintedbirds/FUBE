@@ -27,6 +27,7 @@ import {
   updateUser,
   UsersRequestDto,
 } from '@/networking/services';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function UserEditByIDPage({ params }: never) {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function UserEditByIDPage({ params }: never) {
   const [user, setUser] = useState<User>();
   const { id } = params;
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,6 +84,7 @@ export default function UserEditByIDPage({ params }: never) {
           duration: 9000,
           isClosable: true,
         });
+        queryClient.invalidateQueries({ queryKey: ['users'] });
         router.push(`/dashboard/usuarios/${id}`);
         return;
       }

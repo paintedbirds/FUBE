@@ -23,6 +23,7 @@ import { User } from '@/utils/types';
 import { UserForm } from '../components/user-form';
 import { UserPreview } from '../components/user-preview';
 import { createUser, UsersRequestDto } from '@/networking/services';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function UserCreation() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function UserCreation() {
   const [tabIndex, setTabIndex] = useState(0);
   const [user, setUser] = useState<User>();
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   const handleTabsChange = (index: number) => {
     setTabIndex(index);
@@ -64,6 +66,7 @@ export default function UserCreation() {
           duration: 9000,
           isClosable: true,
         });
+        queryClient.invalidateQueries({ queryKey: ['users'] });
         router.push(`/dashboard/usuarios/${response.data.user.id}`);
         return;
       }

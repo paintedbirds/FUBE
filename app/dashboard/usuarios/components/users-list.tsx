@@ -19,9 +19,11 @@ import { useQuery } from '@tanstack/react-query';
 import { ObjectTableActionButtons } from '@/components/object-table/object-table-action-buttons';
 import { getUsers } from '@/networking/services';
 import { MainActionButtonProps, User } from '@/utils/types';
+import { useEffect, useState } from 'react';
 
 export const UsersList = () => {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const {
     isLoading,
     isError,
@@ -30,6 +32,10 @@ export const UsersList = () => {
     queryKey: ['users'],
     queryFn: getUsers,
   });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const getActionButtons = (id: number): MainActionButtonProps[] => [
     {
@@ -54,36 +60,46 @@ export const UsersList = () => {
   }
 
   return (
-    <Skeleton
-      isLoaded={!isLoading}
-      fadeDuration={1}
-      height="500px"
+    <TableContainer
+      borderWidth="1px"
+      borderRadius="lg"
+      paddingTop="1.5rem"
+      paddingX="2rem"
       marginTop="1.5rem"
     >
-      <TableContainer
-        borderWidth="1px"
-        borderRadius="lg"
-        paddingTop="1.5rem"
-        paddingX="2rem"
-        marginTop="1.5rem"
-      >
-        <Table variant="simple" size="lg">
-          <Thead>
-            <Tr>
-              <Th fontWeight={500} color="#2843B2">
-                #ID
-              </Th>
-              <Th fontWeight={500} color="#2843B2" textTransform="capitalize">
-                Usuario
-              </Th>
-              <Th fontWeight={500} color="#2843B2" textTransform="capitalize">
-                Email
-              </Th>
-              <Th />
-            </Tr>
-          </Thead>
-          <Tbody gap="3">
-            {users && users.data.length > 0 ? (
+      <Table variant="simple" size="lg">
+        <Thead>
+          <Tr>
+            <Th fontWeight={500} color="#2843B2">
+              #ID
+            </Th>
+            <Th fontWeight={500} color="#2843B2" textTransform="capitalize">
+              Usuario
+            </Th>
+            <Th fontWeight={500} color="#2843B2" textTransform="capitalize">
+              Email
+            </Th>
+            <Th />
+          </Tr>
+        </Thead>
+        <Tbody gap="3">
+          {mounted &&
+            (isLoading ? (
+              <Tr width="100%">
+                <Td>
+                  <Skeleton height="50px" />
+                </Td>
+                <Td>
+                  <Skeleton height="50px" />
+                </Td>
+                <Td>
+                  <Skeleton height="50px" />
+                </Td>
+                <Td>
+                  <Skeleton height="50px" />
+                </Td>
+              </Tr>
+            ) : users && users.data.length > 0 ? (
               users.data
                 .filter(
                   (user: User) =>
@@ -119,10 +135,9 @@ export const UsersList = () => {
               <Tr>
                 <Td>Sin usuarios</Td>
               </Tr>
-            )}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </Skeleton>
+            ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
   );
 };
