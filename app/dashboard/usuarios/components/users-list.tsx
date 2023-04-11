@@ -10,7 +10,7 @@ import {
   Td,
   HStack,
   Avatar,
-  VStack,
+  Flex,
   Skeleton,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
@@ -112,15 +112,18 @@ export const UsersList = () => {
                       <HStack align="flex-start">
                         <Avatar
                           name={`${user.first_name} ${user.last_name}`}
-                          src="https://bit.ly/broken-link"
-                          size="sm"
+                          size="md"
                         />
-                        <VStack width="100%" align="flex-start">
+                        <Flex
+                          direction="column"
+                          width="100%"
+                          align="flex-start"
+                        >
                           <Text fontSize="sm">{user.first_name}</Text>
                           <Text color="#808080" fontSize="sm">
                             {user.last_name}
                           </Text>
-                        </VStack>
+                        </Flex>
                       </HStack>
                     </Td>
                     <Td>{user.email}</Td>
