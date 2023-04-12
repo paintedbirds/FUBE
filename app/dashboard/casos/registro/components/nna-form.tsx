@@ -241,7 +241,7 @@ export function NNAForm() {
         </FormControl>
         <Divider />
         <FormControl>
-          <FormLabel>Casa:</FormLabel>
+          <FormLabel>Embarazo:</FormLabel>
           <Controller
             name="pregnancy"
             control={control}

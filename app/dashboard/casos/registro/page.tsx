@@ -8,6 +8,7 @@ import { AggressorForm } from './components/aggressor-form';
 import { ReporterForm } from './components/reporter-form';
 import { NNAForm } from './components/nna-form';
 import { FormTabsProvider } from './hooks/useFormTabs';
+import { FamilyForm } from './components/family-form';
 
 const tabs: string[] = [
   'Denunciante',
@@ -23,6 +24,7 @@ const tabContents: ReactNode[] = [
   <ReporterForm key="denunciante" />,
   <AggressorForm key="agresor" />,
   <NNAForm key="nna" />,
+  <FamilyForm key="familia" />,
 ];
 
 export default function CasosPage() {
