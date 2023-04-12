@@ -7,19 +7,21 @@ import {
   Input,
   Text,
   HStack,
-  Select,
-  Textarea,
   Button,
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useFormTabs } from '../hooks/useFormTabs';
+import { useMutation } from '@tanstack/react-query';
+import { createReporter, CreateReporterDTO } from '@/networking/services/case';
 
 export function ReporterForm() {
   const { handleSubmit, register } = useForm({ mode: 'onBlur' });
   const { onNextTab } = useFormTabs();
 
+  const { mutate } = useMutation(createReporter);
+
   const onSubmit = (values: Record<string, string>) => {
-    console.log(values);
+    mutate(values as unknown as CreateReporterDTO);
   };
 
   const handleNextStep = () => {
@@ -53,75 +55,75 @@ export function ReporterForm() {
             <FormLabel>Nombre:</FormLabel>
             <Input
               placeholder="Ingrese su nombre"
-              id="firstName"
-              {...register('firstName')}
+              id="nombre"
+              {...register('nombre')}
             />
           </FormControl>
           <FormControl>
             <FormLabel>Appellido:</FormLabel>
             <Input
               placeholder="Ingrese su apellido"
-              id="lastName"
-              {...register('lastName')}
+              id="apellido"
+              {...register('apellido')}
             />
           </FormControl>
         </HStack>
         <FormControl>
           <FormLabel>Institución:</FormLabel>
-          <Select
-            placeholder="Ingrese su institución"
-            id="institution"
-            {...register('institution')}
-          >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </Select>
+          <Input
+            placeholder="Ingrese su institucion"
+            id="institucion"
+            {...register('institucion')}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Relacion con NNA:</FormLabel>
           <Input
             placeholder="Ingrese la relación con NNA"
-            id="relationship_with_kid"
-            {...register('relationship_with_kid')}
+            id="rrelacion_con_NNA"
+            {...register('rrelacion_con_NNA')}
           />
         </FormControl>
         <FormControl>
           <FormLabel>Derivado por:</FormLabel>
-          <Select
+          <Input
             placeholder="Ingrese la derivación del caso"
-            id="derived_by"
-            {...register('derived_by')}
-          >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </Select>
+            id="derivado_por"
+            {...register('derivado_por')}
+          />
         </FormControl>
-        <FormControl>
+        {/* <FormControl>
           <FormLabel>Dirección:</FormLabel>
           <Input
             placeholder="Ingrese su dirección"
             id="address"
             {...register('address')}
           />
-        </FormControl>
+        </FormControl> */}
         <FormControl>
           <FormLabel>Telefono:</FormLabel>
           <Input
             placeholder="Ingrese su telefono"
-            id="phone"
-            {...register('phone')}
+            id="telefono"
+            {...register('telefono')}
           />
         </FormControl>
         <FormControl>
+          <FormLabel>Celular:</FormLabel>
+          <Input
+            placeholder="Ingrese su celular"
+            id="celular"
+            {...register('celular')}
+          />
+        </FormControl>
+        {/* <FormControl>
           <FormLabel>Denuncia/Hechos:</FormLabel>
           <Textarea
             placeholder="La denuncia es realizada porque..."
             id="report"
             {...register('report')}
           />
-        </FormControl>
+        </FormControl> */}
       </Box>
       <Box
         position="fixed"
