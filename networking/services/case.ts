@@ -1,67 +1,142 @@
-import { httpClient } from "../http-client";
+import { httpClient } from '../http-client';
 
-type Relationship = "abuela" |"abuelo" | "madre" | "padre" |"tio"| "tia"| "hermano"| "hermana" |"primo"| "prima"| "sobrino"| "sobrina"| "padrastro" |"madrastra" |"abuelastro" |"abuelastra" |"hermanastro" |"hermanastra"| "Vecino"| "Vecina" |"Profesor"| "Profesora" |"Inquilino"| "Empleador"| "Enamorado"| "Enamorada"| "Compañero"| "Compañera" |"Conocido por internet" |"Conocida por internet" |"Amigo"| "Amiga"| "Dueño de casa"| "Dueña de casa" |"cuñado"| "cuñada" |"suegro" |"suegra"| "Pastor de Iglesia" |"Otro";
+type Relationship =
+  | 'abuela'
+  | 'abuelo'
+  | 'madre'
+  | 'padre'
+  | 'tio'
+  | 'tia'
+  | 'hermano'
+  | 'hermana'
+  | 'primo'
+  | 'prima'
+  | 'sobrino'
+  | 'sobrina'
+  | 'padrastro'
+  | 'madrastra'
+  | 'abuelastro'
+  | 'abuelastra'
+  | 'hermanastro'
+  | 'hermanastra'
+  | 'Vecino'
+  | 'Vecina'
+  | 'Profesor'
+  | 'Profesora'
+  | 'Inquilino'
+  | 'Empleador'
+  | 'Enamorado'
+  | 'Enamorada'
+  | 'Compañero'
+  | 'Compañera'
+  | 'Conocido por internet'
+  | 'Conocida por internet'
+  | 'Amigo'
+  | 'Amiga'
+  | 'Dueño de casa'
+  | 'Dueña de casa'
+  | 'cuñado'
+  | 'cuñada'
+  | 'suegro'
+  | 'suegra'
+  | 'Pastor de Iglesia'
+  | 'Otro';
 
 export interface CreateReporterDTO {
-  nombre: string
-  apellido: string
-  rrelacion_con_NNA:Relationship
-  institucion: string
-  derivado_por: string
-  numero_de_Casa?: string
-  nombre_de_Calle_Avenida?: string
-  barrio?: string
-  zona?: string
-  municipio?: string
-  telefono: string
-  celular: string
+  nombre: string;
+  apellido: string;
+  rrelacion_con_NNA: Relationship;
+  institucion: string;
+  derivado_por: string;
+  numero_de_Casa?: string;
+  nombre_de_Calle_Avenida?: string;
+  barrio?: string;
+  zona?: string;
+  municipio?: string;
+  telefono: string;
+  celular: string;
 }
 
 export interface CreateReporterResponseDTO extends CreateReporterDTO {
-  codigo_denunciante: number
+  codigo_denunciante: number;
 }
 
 export const createReporter = (body: CreateReporterDTO) => {
   return httpClient.post<CreateReporterResponseDTO>('/denunciante/', body);
 };
 
+export interface CreateAggressorDTO {
+  nombre: string | null;
+  apellido: string | null;
+  relacion_con_NNA: Relationship | null;
+  relacion_con_NNA_otro: string | null;
+  fecha_nacimiento: string | null;
+  carnet_de_indentidad: string | null;
+  genero: string | null;
+  genero_otro: string | null;
+  escolaridad: string | null;
+  numero_de_Casa: string | null;
+  nombre_de_Calle_Avenida: string | null;
+  barrio: string | null;
+  zona: string | null;
+  municipio: string | null;
+  telefono: string | null;
+  celular: string | null;
+  residente?: string ;
+  imputabilidad?: string;
+  tipo_imputabilidad?: string;
+  tipo_de_delito?: string;
+  tipo_de_delito_otro: string | null;
+  insesto?: string ;
+  referido_por: string | null;
+  observaciones: string | null;
+}
+
+export interface CreateAggressorResponseDTO extends CreateAggressorDTO {
+  codigo_denunciado: number;
+}
+
+export const createAggressor = (body: CreateAggressorDTO) => {
+  return httpClient.post<CreateAggressorResponseDTO>('/denunciado/', body);
+};
+
 enum CaseState {
-  Activo = "Activo",
-  Inactivo = "Inactivo"
+  Activo = 'Activo',
+  Inactivo = 'Inactivo',
 }
 
 enum CaseProgram {
-  Programa1 = "Programa 1",
-  Programa2  = "Programa 2",
-  SinContacto =  "Sin contacto"
+  Programa1 = 'Programa 1',
+  Programa2 = 'Programa 2',
+  SinContacto = 'Sin contacto',
 }
 
 enum CaseSubProgram {
-  Activo = "Activo",
-  EnSegumiento =  "En seguimiento",
-  PorDecisionPropia =  "Por decisión propia",
-  PerdidaContacto = "La institución perdió contacto y se está buscando"
+  Activo = 'Activo',
+  EnSegumiento = 'En seguimiento',
+  PorDecisionPropia = 'Por decisión propia',
+  PerdidaContacto = 'La institución perdió contacto y se está buscando',
 }
 
 export interface CreateCaseDTO {
-  fecha_inicio: string | null
-  fecha_fin: string | null
-  estado: CaseState | null
-  programa: CaseProgram | null
-  subprograma: CaseSubProgram | null
-  Recoleccion_de_datos_primera_cita: number | null
-  victima: number | null
-  actividad: number | null
-  denuncia: number | null
-  personal_legal_asignado_al_caso: number | null
-  Evaluacion_psicologica: number | null
-  Grabacion: number | null
+  fecha_inicio: string | null;
+  fecha_fin: string | null;
+  estado: CaseState | null;
+  programa: CaseProgram | null;
+  subprograma: CaseSubProgram | null;
+  Recoleccion_de_datos_primera_cita: number | null;
+  victima: number | null;
+  actividad: number | null;
+  denuncia: number | null;
+  personal_legal_asignado_al_caso: number | null;
+  Evaluacion_psicologica: number | null;
+  Grabacion: number | null;
 }
 
 export interface CreateCaseResponseDTO extends CreateCaseDTO {
-  id: string
-  codigo_caso: string
-  fecha_registro_caso: string
+  id: string;
+  codigo_caso: string;
+  fecha_registro_caso: string;
 }
 
 export const createCase = (body: CreateCaseDTO) => {

@@ -61,7 +61,7 @@ export function ReporterForm() {
       onNextTab();
       toast({
         position: 'top',
-        title: 'Denunciante creado',
+        title: 'Denunciante agregado',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -70,7 +70,7 @@ export function ReporterForm() {
     onError: () => {
       toast({
         position: 'top',
-        title: 'Error al crear denunciante',
+        title: 'Error al agregar denunciante',
         status: 'error',
         duration: 9000,
         isClosable: true,
