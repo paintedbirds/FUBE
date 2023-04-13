@@ -24,3 +24,46 @@ export interface CreateReporterResponseDTO extends CreateReporterDTO {
 export const createReporter = (body: CreateReporterDTO) => {
   return httpClient.post<CreateReporterResponseDTO>('/denunciante/', body);
 };
+
+enum CaseState {
+  Activo = "Activo",
+  Inactivo = "Inactivo"
+}
+
+enum CaseProgram {
+  Programa1 = "Programa 1",
+  Programa2  = "Programa 2",
+  SinContacto =  "Sin contacto"
+}
+
+enum CaseSubProgram {
+  Activo = "Activo",
+  EnSegumiento =  "En seguimiento",
+  PorDecisionPropia =  "Por decisión propia",
+  PerdidaContacto = "La institución perdió contacto y se está buscando"
+}
+
+export interface CreateCaseDTO {
+  fecha_inicio: string | null
+  fecha_fin: string | null
+  estado: CaseState | null
+  programa: CaseProgram | null
+  subprograma: CaseSubProgram | null
+  Recoleccion_de_datos_primera_cita: number | null
+  victima: number | null
+  actividad: number | null
+  denuncia: number | null
+  personal_legal_asignado_al_caso: number | null
+  Evaluacion_psicologica: number | null
+  Grabacion: number | null
+}
+
+export interface CreateCaseResponseDTO extends CreateCaseDTO {
+  id: string
+  codigo_caso: string
+  fecha_registro_caso: string
+}
+
+export const createCase = (body: CreateCaseDTO) => {
+  return httpClient.post<CreateCaseResponseDTO>('/caso/', body);
+};
