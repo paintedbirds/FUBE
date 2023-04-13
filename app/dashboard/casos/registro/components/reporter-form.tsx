@@ -10,12 +10,14 @@ import {
   Button,
   FormErrorMessage,
   Select,
+  useToast,
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useFormTabs } from '../hooks/useFormTabs';
 import { useCase } from '../hooks/useCase';
-import { CreateReporterDTO } from '@/networking/services/case';
+import { createReporter, CreateReporterDTO } from '@/networking/services/case';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { z } from 'zod';
 
 const reportFormSchema = z.object({
@@ -46,20 +48,42 @@ const reportFormSchema = z.object({
 });
 
 export function ReporterForm() {
-  const { handleSubmit, register, formState } = useForm({
+  const { handleSubmit, register, formState } = useForm<CreateReporterDTO>({
     resolver: zodResolver(reportFormSchema),
   });
-
   const { onNextTab } = useFormTabs();
-  const { updateCase, saveFirstMeeting } = useCase();
+  const { updateCase, saveFirstMeeting, caseRequest } = useCase();
+  const toast = useToast();
 
-  const onSubmit = (values: Record<string, string>) => {
-    updateCase({ denuncianteValues: values as unknown as CreateReporterDTO });
-    saveFirstMeeting();
-  };
+  const { mutate: createReporterMutate } = useMutation(createReporter, {
+    onSuccess: (response) => {
+      updateCase({ denunciante_id: response.data.codigo_denunciante });
+      onNextTab();
+      toast({
+        position: 'top',
+        title: 'Denunciante creado',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    onError: () => {
+      toast({
+        position: 'top',
+        title: 'Error al crear denunciante',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    },
+  });
 
-  const handleNextStep = () => {
-    onNextTab();
+  const onSubmit = (values: CreateReporterDTO) => {
+    if (!caseRequest.denunciante_id) {
+      createReporterMutate(values);
+    } else {
+      onNextTab();
+    }
   };
 
   return (
@@ -294,7 +318,7 @@ export function ReporterForm() {
           height="60px"
           color="#2843B2"
           borderColor="#2843B2"
-          type="submit"
+          onClick={saveFirstMeeting}
         >
           Guardar primera cita
         </Button>
@@ -305,7 +329,7 @@ export function ReporterForm() {
           py="16px"
           height="60px"
           rightIcon={<ChevronRightIcon />}
-          onClick={handleNextStep}
+          type="submit"
         >
           Continuar con el seguimiento
         </Button>
