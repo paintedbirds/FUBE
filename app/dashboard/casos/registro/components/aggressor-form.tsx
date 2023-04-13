@@ -27,11 +27,6 @@ import {
   CreateAggressorDTO,
 } from '@/networking/services/case';
 
-enum YesNo {
-  Yes = 'Si',
-  No = 'No',
-}
-
 const agressorFormSchema = z.object({
   nombre: z
     .string()
@@ -42,7 +37,7 @@ const agressorFormSchema = z.object({
     .nonempty('Requerido')
     .max(50, { message: 'Cantidad maxima 50 caracteres' }),
   relacion_con_NNA: z.string(),
-  fecha_nacimiento: z.string(),
+  fecha_nacimiento: z.string().nonempty('Requerido'),
   carnet_de_indentidad: z
     .string()
     .max(50, { message: 'Cantidad maxima 50 caracteres' }),
@@ -448,7 +443,7 @@ export function AggressorForm() {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={Boolean(formState.errors.tipo_de_delito_otro)}>
-          <FormLabel>En caso de ser &quotOtro&quot:</FormLabel>
+          <FormLabel>En caso de ser &quot;Otro&quot;</FormLabel>
           <Input
             placeholder="Ingrese otro"
             id="tipo_de_delito_otro"
