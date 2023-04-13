@@ -27,6 +27,11 @@ import {
   CreateAggressorDTO,
 } from '@/networking/services/case';
 
+enum YesNo {
+  Yes = 'Si',
+  No = 'No',
+}
+
 const agressorFormSchema = z.object({
   nombre: z
     .string()
@@ -54,23 +59,18 @@ const agressorFormSchema = z.object({
   municipio: z.string().max(50, { message: 'Cantidad maxima 50 caracteres' }),
   telefono: z.string().max(10, { message: 'Cantidad maxima 10 caracteres' }),
   celular: z.string().max(10, { message: 'Cantidad maxima 10 caracteres' }),
-  residente: z.enum(['Si', 'No']).nullable(),
-  imputabilidad: z.enum(['Si', 'No']).nullable(),
-  tipo_imputabilidad: z.enum([
-    'Con responabilidad penal',
-    'Sin responsabilidad penal',
-  ]),
-  tipo_de_delito: z.enum([
-    'Violacion',
-    'Abuso sexual',
-    'Sospecha',
-    'Estupro',
-    'Otro',
-  ]),
+  residente: z.enum(['Si', 'No']).nullish(),
+  imputabilidad: z.enum(['Si', 'No']).nullish(),
+  tipo_imputabilidad: z
+    .enum(['Con responabilidad penal', 'Sin responsabilidad penal'])
+    .nullish(),
+  tipo_de_delito: z
+    .enum(['Violacion', 'Abuso sexual', 'Sospecha', 'Estupro', 'Otro'])
+    .nullish(),
   tipo_de_delito_otro: z
     .string()
     .max(50, { message: 'Cantidad maxima 50 caracteres' }),
-  insesto: z.enum(['Si', 'No']),
+  insesto: z.enum(['Si', 'No']).nullish(),
   referido_por: z
     .string()
     .max(200, { message: 'Cantidad maxima 200 caracteres' }),
