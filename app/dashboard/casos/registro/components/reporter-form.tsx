@@ -72,7 +72,7 @@ export function ReporterForm() {
         position: 'top',
         title: 'Error al agregar denunciante',
         status: 'error',
-        duration: 9000,
+        duration: 3000,
         isClosable: true,
       });
     },
@@ -229,7 +229,8 @@ export function ReporterForm() {
               {...register('nombre_de_Calle_Avenida')}
             />
             <FormErrorMessage>
-              {String(formState.errors.numero_de_Casa?.message) ?? 'Invalido'}
+              {String(formState.errors.nombre_de_Calle_Avenida?.message) ??
+                'Invalido'}
             </FormErrorMessage>
           </FormControl>
         </HStack>

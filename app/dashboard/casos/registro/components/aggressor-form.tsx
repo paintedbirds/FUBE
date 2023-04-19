@@ -41,7 +41,7 @@ const agressorFormSchema = z.object({
   carnet_de_indentidad: z
     .string()
     .max(50, { message: 'Cantidad maxima 50 caracteres' }),
-  genero: z.enum(['Masculino', 'Femenino', 'Otro', '']),
+  genero: z.enum(['Masculino', 'Femenino', 'Otro']).nullish(),
   escolaridad: z.string().max(50, { message: 'Cantidad maxima 50 caracteres' }),
   numero_de_Casa: z
     .string()
@@ -88,6 +88,7 @@ export function AggressorForm() {
       updateCase({ agresor_id: response.data.codigo_denunciado });
       onNextTab();
       toast({
+        position: 'top',
         title: 'Agresor agregado',
         status: 'success',
         duration: 3000,
@@ -96,6 +97,7 @@ export function AggressorForm() {
     },
     onError: () => {
       toast({
+        position: 'top',
         title: 'Error al agregar agresor',
         status: 'error',
         duration: 5000,
@@ -282,7 +284,8 @@ export function AggressorForm() {
               {...register('nombre_de_Calle_Avenida')}
             />
             <FormErrorMessage>
-              {String(formState.errors.numero_de_Casa?.message) || 'Invalido'}
+              {String(formState.errors.nombre_de_Calle_Avenida?.message) ||
+                'Invalido'}
             </FormErrorMessage>
           </FormControl>
         </HStack>

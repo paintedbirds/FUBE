@@ -8,7 +8,7 @@ import {
   SetStateAction,
   useState,
 } from 'react';
-import { CreateCaseDTO } from '@/networking/services/case';
+import { CreateCaseDTO, createCase } from '@/networking/services/case';
 import { useToast } from '@chakra-ui/react';
 
 type Step = 'Denunciante' | 'Agresor' | 'NNA' | 'Familia';
@@ -26,6 +26,7 @@ interface CaseContextInterface {
 interface CaseRequestBuilder extends CreateCaseDTO {
   denunciante_id: number | undefined;
   agresor_id: number | undefined;
+  victima_id: number | undefined;
 }
 
 const CaseContext = createContext(null as unknown as CaseContextInterface);
@@ -77,8 +78,32 @@ export const CaseProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    if (caseRequest.denunciante_id && caseRequest.agresor_id) {
-      // create denuncia
+    if (!caseRequest.victima_id) {
+      toast({
+        position: 'top',
+        title: 'Victima no ingresada',
+        description:
+          'Debe ingresar al menos el nombre de la victima para guardar',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+
+      return;
+    }
+
+    if (
+      caseRequest.denunciante_id &&
+      caseRequest.agresor_id &&
+      caseRequest.victima_id
+    ) {
+      createCase({
+        denuncia: {
+          denunciante: caseRequest.denunciante_id,
+          denunciado: caseRequest.agresor_id,
+        },
+        victima: caseRequest.victima_id,
+      });
     }
   }, [caseRequest, toast]);
 
