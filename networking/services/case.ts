@@ -274,3 +274,141 @@ export interface CreateVictimDTO {
 export const createVictim = (body: CreateVictimDTO) => {
   return httpClient.post('/victima/', body);
 };
+
+export interface CreateMotherDTO {
+  nombre: string;
+  apellido: string;
+  carnet_de_indentidad: string | null;
+  fecha_nacimiento: string | null;
+  genero: "masculino" | "femenino" | "otro";
+  genero_otro: string | null;
+  numero_de_Casa: string | null;
+  nombre_de_Calle_Avenida: string | null;
+  barrio: string | null;
+  zona: string | null;
+  municipio: string | null;
+  telefono: string | null;
+  ocupacion: string | null;
+  lugar_trabajo: string | null;
+  direccion_trabajo: string | null;
+}
+
+export const createMother = (body: CreateMotherDTO) => {
+  return httpClient.post('/madre/', body);
+};
+
+export interface CreateFatherDTO {
+  nombre: string;
+  apellido: string;
+  carnet_de_indentidad: string | null;
+  fecha_nacimiento: string | null;
+  genero: "masculino" | "femenino" | "otro";
+  genero_otro: string | null;
+  numero_de_Casa: string | null;
+  nombre_de_Calle_Avenida: string | null;
+  barrio: string | null;
+  zona: string | null;
+  municipio: string | null;
+  telefono: string | null;
+  ocupacion: string | null;
+  lugar_trabajo: string | null;
+  direccion_trabajo: string | null;
+}
+
+export const createFather = (body: CreateFatherDTO) => {
+  return httpClient.post('/padre/', body);
+};
+
+export interface CreateSiblingDTO {
+  nombre: string;
+  apellido: string;
+  carnet_de_indentidad: string | null;
+  fecha_nacimiento: string | null;
+  genero: "masculino" | "femenino" | "otro";
+  genero_otro: string | null;
+  numero_de_Casa: string | null;
+  nombre_de_Calle_Avenida: string | null;
+  barrio: string | null;
+  zona: string | null;
+  municipio: string | null;
+  telefono: string | null;
+  ocupacion: string | null;
+  lugar_trabajo: string | null;
+  direccion_trabajo: string | null;
+}
+
+export const createSibling = (body: CreateSiblingDTO) => {
+  return httpClient.post('/hermano/', body);
+};
+
+export enum FamilyMemberRelation {
+  Abuela = "abuela",
+  Abuelo = "abuelo",
+  Madre = "madre",
+  Padre = "padre",
+  Tio = "tio",
+  Tia = "tia",
+  Hermano = "hermano",
+  Hermana = "hermana",
+  Primo = "primo",
+  Prima = "prima",
+  Sobrino = "sobrino",
+  Sobrina = "sobrina",
+  Padrastro = "padrastro",
+  Madrastra = "madrastra",
+  Abuelastro = "abuelastro",
+  Abuelastra = "abuelastra",
+  Hermanastro = "hermanastro",
+  Hermanastra = "hermanastra",
+  Otro = "otro",
+}
+
+export interface CreateFamilyMemberDTO {
+  nombre: string;
+  apellido: string;
+  genero: "masculino" | "femenino" | "otro";
+  genero_otro: string | null;
+  carnet_de_indentidad: string | null;
+  fecha_nacimiento: string | null;
+  numero_de_Casa: string | null;
+  nombre_de_Calle_Avenida: string | null;
+  barrio: string | null;
+  zona: string | null;
+  municipio: string | null;
+  telefono: string | null;
+  ocupacion: string | null;
+  lugar_trabajo: string | null;
+  direccion_trabajo: string | null;
+  parentesco: FamilyMemberRelation;
+  parentesco_otro: string | null;
+}
+
+export const createFamilyMember = (body: CreateFamilyMemberDTO) => {
+  return httpClient.post('/familiar/', body);
+};
+
+export interface CreatePersonOfInterestDTO {
+  nombre: string;
+  apellido: string;
+  fecha_nacimiento: string | null;
+  genero: "masculino" | "femenino" | "otro";
+  genero_otro: string | null;
+  carnet_de_indentidad: string | null;
+  tipo_de_parentezco: string | null;
+  relacion: string | null;
+  confiabilidad: "confiable" | "no confiable" | "no se sabe";
+  ocupacion: string | null;
+  donde_trabaja: string | null;
+  direccion_trabajo: string | null;
+  numero_de_Casa: string | null;
+  nombre_de_Calle_Avenida: string | null;
+  barrio: string | null;
+  zona: string | null;
+  municipio: string | null;
+  numero_telefono_de_contacto: string | null;
+  numero_telefono_de_referencia: string | null;
+}
+
+export const createPersonOfInterest = (body: CreatePersonOfInterestDTO) => {
+  return httpClient.post('/persona-importante/', body);
+};
