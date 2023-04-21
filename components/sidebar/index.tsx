@@ -39,7 +39,7 @@ export const Sidebar = ({ children }: { children: ReactNode }) => {
     <Box minH="100vh">
       <SidebarContent />
       <Navbar />
-      <Box ml={{ base: 0, md: 60 }} p="4" paddingLeft="60px">
+      <Box ml={{ base: 0, md: 60 }} paddingX="3rem" paddingY="1.5rem">
         {children}
       </Box>
     </Box>
