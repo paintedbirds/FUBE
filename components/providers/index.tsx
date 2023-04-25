@@ -7,6 +7,7 @@ import { ReactNode, useRef } from 'react';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { AuthRedirect } from './auth-redirect';
+import { HttpClient } from './http-client';
 
 export function Providers({
   children,
@@ -22,7 +23,9 @@ export function Providers({
       <QueryClientProvider client={queryClient.current}>
         <CacheProvider>
           <ChakraProvider>
-            <AuthRedirect>{children}</AuthRedirect>
+            <AuthRedirect>
+              <HttpClient>{children}</HttpClient>
+            </AuthRedirect>
           </ChakraProvider>
         </CacheProvider>
       </QueryClientProvider>
