@@ -17,69 +17,70 @@ import {
   Flex,
   FormErrorMessage,
   Select,
+  useToast,
 } from '@chakra-ui/react';
 import { TypeOf, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormTabs } from '../hooks/useFormTabs';
+import { useCase } from '../hooks/useCase';
 import { FamilyMemberRelation } from '@/networking/services/case';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { useMutation } from '@tanstack/react-query';
+import { addVictimFamily } from '@/networking/services/case';
 
 const familyFormSchema = z.object({
-  mother_nombre: z
-    .string()
-    .nonempty('Requerido')
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  mother_apellido: z
-    .string()
-    .nonempty('Requerido')
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  mother_carnet_de_identidad: z
-    .string()
-    .nonempty('Requerido')
-    .max(20, { message: 'Maximo 20 caracteres' }),
-  mother_fecha_de_nacimiento: z.string().nonempty('Requerido'),
-  mother_numbero_de_Casa: z
-    .string()
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  mother_nombre_de_Calle_Avenida: z
-    .string()
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  mother_barrio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  mother_zona: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  mother_municipio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  mother_telefono: z.string().max(20, { message: 'Maximo 20 caracteres' }),
-  mother_ocupacion: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  mother_lugar_trabajo: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  mother_direccion_trabajo: z
-    .string()
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  father_nombre: z
-    .string()
-    .nonempty('Requerido')
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  father_apellido: z
-    .string()
-    .nonempty('Requerido')
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  father_carnet_de_identidad: z
-    .string()
-    .nonempty('Requerido')
-    .max(20, { message: 'Maximo 20 caracteres' }),
-  father_fecha_de_nacimiento: z.string().nonempty('Requerido'),
-  father_numbero_de_Casa: z
-    .string()
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  father_nombre_de_Calle_Avenida: z
-    .string()
-    .max(50, { message: 'Maximo 50 caracteres' }),
-  father_barrio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  father_zona: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  father_municipio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  father_telefono: z.string().max(20, { message: 'Maximo 20 caracteres' }),
-  father_ocupacion: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  father_lugar_trabajo: z.string().max(50, { message: 'Maximo 50 caracteres' }),
-  father_direccion_trabajo: z
-    .string()
-    .max(50, { message: 'Maximo 50 caracteres' }),
+  mother: z.object({
+    nombre: z
+      .string()
+      .max(50, { message: 'Maximo 50 caracteres' })
+      .nonempty('Requerido'),
+    apellido: z
+      .string()
+      .max(50, { message: 'Maximo 50 caracteres' })
+      .nonempty('Requerido'),
+    carnet_de_indentidad: z
+      .string()
+      .max(20, { message: 'Maximo 20 caracteres' })
+      .nonempty('Requerido'),
+    fecha_de_nacimiento: z.string().nonempty('Requerido'),
+    numero_de_Casa: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    nombre_de_Calle_Avenida: z
+      .string()
+      .max(50, { message: 'Maximo 50 caracteres' }),
+    barrio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    zona: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    municipio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    telefono: z.string().max(20, { message: 'Maximo 20 caracteres' }),
+    ocupacion: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    lugar_trabajo: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    direccion_trabajo: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+  }),
+  father: z.object({
+    nombre: z
+      .string()
+      .max(50, { message: 'Maximo 50 caracteres' })
+      .nonempty('Requerido'),
+    apellido: z
+      .string()
+      .max(50, { message: 'Maximo 50 caracteres' })
+      .nonempty('Requerido'),
+    carnet_de_indentidad: z
+      .string()
+      .max(20, { message: 'Maximo 20 caracteres' })
+      .nonempty('Requerido'),
+    fecha_de_nacimiento: z.string().nonempty('Requerido'),
+    numero_de_Casa: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    nombre_de_Calle_Avenida: z
+      .string()
+      .max(50, { message: 'Maximo 50 caracteres' }),
+    barrio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    zona: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    municipio: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    telefono: z.string().max(20, { message: 'Maximo 20 caracteres' }),
+    ocupacion: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    lugar_trabajo: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+    direccion_trabajo: z.string().max(50, { message: 'Maximo 50 caracteres' }),
+  }),
   siblings: z.array(
     z.object({
       nombre: z
@@ -191,8 +192,18 @@ export function FamilyForm() {
   >({
     resolver: zodResolver(familyFormSchema),
   });
+  const toast = useToast();
 
-  // const { onNextTab } = useFormTabs();
+  const { onNextTab } = useFormTabs();
+
+  const { updateCase, saveFirstMeeting, caseRequest } = useCase();
+
+  const { mutate: updateFamily } = useMutation(addVictimFamily, {
+    onSuccess: (data) => {
+      updateCase(data);
+      onNextTab();
+    },
+  });
 
   const {
     fields: siblingsFields,
@@ -222,7 +233,25 @@ export function FamilyForm() {
   });
 
   const onSubmit = (values: TypeOf<typeof familyFormSchema>) => {
+    if (!caseRequest.victima_id) {
+      toast({
+        position: 'top',
+        title: 'Es necesario un agregar una victima',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
     console.log(values);
+
+    updateFamily(caseRequest.victima_id, {
+      madre: values.mother,
+      padre: values.father,
+      hermanos: values.siblings,
+      miembros_de_familia: values.familyMembers,
+      personas_de_interes: values.personsOfInterest,
+    });
   };
 
   return (
@@ -246,7 +275,7 @@ export function FamilyForm() {
           Ingrese toda la informacion de la familia del NNA.
         </Text>
 
-        <Accordion defaultIndex={[0]} allowMultiple>
+        <Accordion defaultIndex={[0, 1]} allowMultiple>
           <AccordionItem>
             <h2>
               <AccordionButton>
@@ -260,170 +289,186 @@ export function FamilyForm() {
               <Flex flexDirection="column" gap="20px">
                 <HStack>
                   <FormControl
-                    isInvalid={Boolean(formState.errors.mother_nombre)}
+                    isInvalid={Boolean(formState.errors.mother?.nombre)}
                   >
                     <FormLabel>Nombre:</FormLabel>
                     <Input
                       placeholder="Ingrese su nombre"
-                      id="mother_nombre"
-                      {...register('mother_nombre')}
+                      id="mother.nombre"
+                      {...register('mother.nombre')}
                     />
                     <FormErrorMessage>
-                      {formState.errors.mother_nombre?.message || 'Invalido'}
+                      {formState.errors.mother?.nombre?.message || 'Invalido'}
                     </FormErrorMessage>
                   </FormControl>
                   <FormControl
-                    isInvalid={Boolean(formState.errors.mother_apellido)}
+                    isInvalid={Boolean(formState.errors.mother?.apellido)}
                   >
                     <FormLabel>Appellido:</FormLabel>
                     <Input
                       placeholder="Ingrese su apellido"
-                      id="mother_apellido"
-                      {...register('mother_apellido')}
+                      id="mother.apellido"
+                      {...register('mother.apellido')}
                     />
                     <FormErrorMessage>
-                      {formState.errors.mother_apellido?.message || 'Invalido'}
+                      {formState.errors.mother?.apellido?.message || 'Invalido'}
                     </FormErrorMessage>
                   </FormControl>
                 </HStack>
                 <FormControl
                   isInvalid={Boolean(
-                    formState.errors.mother_carnet_de_identidad
+                    formState.errors.mother?.carnet_de_indentidad
                   )}
                 >
                   <FormLabel>Carnet de identidad:</FormLabel>
                   <Input
                     placeholder="Ingrese su carnet de identidad"
-                    id="mother_carnet_de_identidad"
-                    {...register('mother_carnet_de_identidad')}
+                    id="mother.carnet_de_identidad"
+                    {...register('mother.carnet_de_indentidad')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_carnet_de_identidad?.message ||
+                    {formState.errors.mother?.carnet_de_indentidad?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
                   isInvalid={Boolean(
-                    formState.errors.mother_fecha_de_nacimiento
+                    formState.errors.mother?.fecha_de_nacimiento
                   )}
                 >
                   <FormLabel>Fecha de nacimiento:</FormLabel>
                   <Input
                     type="date"
                     placeholder="Ingrese su fecha de nacimiento"
-                    id="mother_fecha_de_nacimiento"
-                    {...register('mother_fecha_de_nacimiento')}
+                    id="mother.fecha_de_nacimiento"
+                    {...register('mother.fecha_de_nacimiento')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_fecha_de_nacimiento?.message ||
+                    {formState.errors.mother?.fecha_de_nacimiento?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.mother_numbero_de_Casa)}
+                  isInvalid={Boolean(formState.errors.mother?.numero_de_Casa)}
                 >
                   <FormLabel>Número de casa:</FormLabel>
                   <Input
                     placeholder="Ingrese su número de casa"
-                    id="mother_numbero_de_Casa"
-                    {...register('mother_numbero_de_Casa')}
+                    id="mother.numero_de_Casa"
+                    {...register('mother.numero_de_Casa')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_numbero_de_Casa?.message ||
+                    {formState.errors.mother?.numero_de_Casa?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
                   isInvalid={Boolean(
-                    formState.errors.mother_nombre_de_Calle_Avenida
+                    formState.errors.mother?.nombre_de_Calle_Avenida
                   )}
                 >
                   <FormLabel>Nombre de calle o avenida:</FormLabel>
                   <Input
                     placeholder="Ingrese su nombre de calle o avenida"
-                    id="mother_nombre_de_Calle_Avenida"
-                    {...register('mother_nombre_de_Calle_Avenida')}
+                    id="mother.nombre_de_Calle_Avenida"
+                    {...register('mother.nombre_de_Calle_Avenida')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_nombre_de_Calle_Avenida?.message ||
-                      'Invalido'}
+                    {formState.errors.mother?.nombre_de_Calle_Avenida
+                      ?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
+                father_barrio
                 <FormControl
-                  isInvalid={Boolean(formState.errors.mother_barrio)}
+                  isInvalid={Boolean(formState.errors.mother?.barrio)}
                 >
                   <FormLabel>Barrio:</FormLabel>
                   <Input
                     placeholder="Ingrese su barrio"
-                    id="mother_barrio"
-                    {...register('mother_barrio')}
+                    id="mother.barrio"
+                    {...register('mother.barrio')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_barrio?.message || 'Invalido'}
+                    {formState.errors.mother?.barrio?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={Boolean(formState.errors.mother_zona)}>
+                <FormControl isInvalid={Boolean(formState.errors.mother?.zona)}>
                   <FormLabel>Zona:</FormLabel>
                   <Input
                     placeholder="Ingrese su zona"
-                    id="mother_zona"
-                    {...register('mother_zona')}
+                    id="mother.zona"
+                    {...register('mother.zona')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_zona?.message || 'Invalido'}
+                    {formState.errors.mother?.zona?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.mother_municipio)}
+                  isInvalid={Boolean(formState.errors.mother?.municipio)}
                 >
                   <FormLabel>Municipio:</FormLabel>
                   <Input
                     placeholder="Ingrese su municipio"
-                    id="mother_municipio"
-                    {...register('mother_municipio')}
+                    id="mother.municipio"
+                    {...register('mother.municipio')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_municipio?.message || 'Invalido'}
+                    {formState.errors.mother?.municipio?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.mother_telefono)}
+                  isInvalid={Boolean(formState.errors.mother?.telefono)}
                 >
                   <FormLabel>Teléfono:</FormLabel>
                   <Input
                     placeholder="Ingrese su teléfono"
-                    id="mother_telefono"
-                    {...register('mother_telefono')}
+                    id="mother.telefono"
+                    {...register('mother.telefono')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_telefono?.message || 'Invalido'}
+                    {formState.errors.mother?.telefono?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.mother_lugar_trabajo)}
+                  isInvalid={Boolean(formState.errors.mother?.ocupacion)}
+                >
+                  <FormLabel>Ocupación:</FormLabel>
+                  <Input
+                    placeholder="Ingrese su ocupación"
+                    id="mother.ocupacion"
+                    {...register('mother.ocupacion')}
+                  />
+                  <FormErrorMessage>
+                    {formState.errors.mother?.ocupacion?.message || 'Invalido'}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl
+                  isInvalid={Boolean(formState.errors.mother?.lugar_trabajo)}
                 >
                   <FormLabel>Lugar de trabajo:</FormLabel>
                   <Input
                     placeholder="Ingrese su lugar de trabajo"
-                    id="mother_lugar_trabajo"
-                    {...register('mother_lugar_trabajo')}
+                    id="mother.lugar_trabajo"
+                    {...register('mother.lugar_trabajo')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_lugar_trabajo?.message ||
+                    {formState.errors.mother?.lugar_trabajo?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.mother_direccion_trabajo)}
+                  isInvalid={Boolean(
+                    formState.errors.mother?.direccion_trabajo
+                  )}
                 >
                   <FormLabel>Dirección de trabajo:</FormLabel>
                   <Input
                     placeholder="Ingrese su dirección de trabajo"
-                    id="mother_direccion_trabajo"
-                    {...register('mother_direccion_trabajo')}
+                    id="mother.direction_trabajo"
+                    {...register('mother.direccion_trabajo')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.mother_direccion_trabajo?.message ||
+                    {formState.errors.mother?.direccion_trabajo?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
@@ -443,155 +488,186 @@ export function FamilyForm() {
               <Flex flexDirection="column" gap="20px">
                 <HStack>
                   <FormControl
-                    isInvalid={Boolean(formState.errors.father_nombre)}
+                    isInvalid={Boolean(formState.errors.father?.nombre)}
                   >
                     <FormLabel>Nombre:</FormLabel>
                     <Input
                       placeholder="Ingrese su nombre"
-                      id="father_nombre"
-                      {...register('father_nombre')}
+                      id="father.nombre"
+                      {...register('father.nombre')}
                     />
                     <FormErrorMessage>
-                      {formState.errors.father_nombre?.message || 'Invalido'}
+                      {formState.errors.father?.nombre?.message || 'Invalido'}
                     </FormErrorMessage>
                   </FormControl>
                   <FormControl
-                    isInvalid={Boolean(formState.errors.father_apellido)}
+                    isInvalid={Boolean(formState.errors.father?.apellido)}
                   >
                     <FormLabel>Appellido:</FormLabel>
                     <Input
                       placeholder="Ingrese su apellido"
-                      id="father_apellido"
-                      {...register('father_apellido')}
+                      id="father.apellido"
+                      {...register('father.apellido')}
                     />
                     <FormErrorMessage>
-                      {formState.errors.father_apellido?.message || 'Invalido'}
+                      {formState.errors.father?.apellido?.message || 'Invalido'}
                     </FormErrorMessage>
                   </FormControl>
                 </HStack>
                 <FormControl
                   isInvalid={Boolean(
-                    formState.errors.father_fecha_de_nacimiento
+                    formState.errors.father?.carnet_de_indentidad
+                  )}
+                >
+                  <FormLabel>Carnet de identidad:</FormLabel>
+                  <Input
+                    placeholder="Ingrese su carnet de identidad"
+                    id="father.carne_de_identidad"
+                    {...register('father.carnet_de_indentidad')}
+                  />
+                  <FormErrorMessage>
+                    {formState.errors.father?.carnet_de_indentidad?.message ||
+                      'Invalido'}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl
+                  isInvalid={Boolean(
+                    formState.errors.father?.fecha_de_nacimiento
                   )}
                 >
                   <FormLabel>Fecha de nacimiento:</FormLabel>
                   <Input
                     type="date"
                     placeholder="Ingrese su fecha de nacimiento"
-                    id="father_fecha_de_nacimiento"
-                    {...register('father_fecha_de_nacimiento')}
+                    id="father.fecha_de_nacimiento"
+                    {...register('father.fecha_de_nacimiento')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_fecha_de_nacimiento?.message ||
+                    {formState.errors.father?.fecha_de_nacimiento?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.father_numbero_de_Casa)}
+                  isInvalid={Boolean(formState.errors.father?.numero_de_Casa)}
                 >
                   <FormLabel>Número de casa:</FormLabel>
                   <Input
                     placeholder="Ingrese su número de casa"
-                    id="father_numbero_de_Casa"
-                    {...register('father_numbero_de_Casa')}
+                    id="father.numero_de_Casa"
+                    {...register('father.numero_de_Casa')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_numbero_de_Casa?.message ||
+                    {formState.errors.father?.numero_de_Casa?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
                   isInvalid={Boolean(
-                    formState.errors.father_nombre_de_Calle_Avenida
+                    formState.errors.father?.nombre_de_Calle_Avenida
                   )}
                 >
                   <FormLabel>Nombre de calle o avenida:</FormLabel>
                   <Input
                     placeholder="Ingrese su nombre de calle o avenida"
-                    id="father_nombre_de_Calle_Avenida"
-                    {...register('father_nombre_de_Calle_Avenida')}
+                    id="father.nombre_de_Calle_Avenida"
+                    {...register('father.nombre_de_Calle_Avenida')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_nombre_de_Calle_Avenida?.message ||
-                      'Invalido'}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={Boolean(formState.errors.father_zona)}>
-                  <FormLabel>Zona:</FormLabel>
-                  <Input
-                    placeholder="Ingrese su zona"
-                    id="father_zona"
-                    {...register('father_zona')}
-                  />
-                  <FormErrorMessage>
-                    {formState.errors.father_zona?.message || 'Invalido'}
+                    {formState.errors.father?.nombre_de_Calle_Avenida
+                      ?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.father_municipio)}
+                  isInvalid={Boolean(formState.errors.father?.barrio)}
+                >
+                  <FormLabel>Barrio:</FormLabel>
+                  <Input
+                    placeholder="Ingrese su barrio"
+                    id="father.barrio"
+                    {...register('father.barrio')}
+                  />
+                  <FormErrorMessage>
+                    {formState.errors.father?.barrio?.message || 'Invalido'}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={Boolean(formState.errors.father?.zona)}>
+                  <FormLabel>Zona:</FormLabel>
+                  <Input
+                    placeholder="Ingrese su zona"
+                    id="father.zona"
+                    {...register('father.zona')}
+                  />
+                  <FormErrorMessage>
+                    {formState.errors.father?.zona?.message || 'Invalido'}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl
+                  isInvalid={Boolean(formState.errors.father?.municipio)}
                 >
                   <FormLabel>Municipio:</FormLabel>
                   <Input
                     placeholder="Ingrese su municipio"
-                    id="father_municipio"
-                    {...register('father_municipio')}
+                    id="father.municipio"
+                    {...register('father.municipio')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_municipio?.message || 'Invalido'}
+                    {formState.errors.father?.municipio?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
 
                 <FormControl
-                  isInvalid={Boolean(formState.errors.father_telefono)}
+                  isInvalid={Boolean(formState.errors.father?.telefono)}
                 >
                   <FormLabel>Teléfono:</FormLabel>
                   <Input
                     placeholder="Ingrese su teléfono"
-                    id="father_telefono"
-                    {...register('father_telefono')}
+                    id="father.telefono"
+                    {...register('father.telefono')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_telefono?.message || 'Invalido'}
+                    {formState.errors.father?.telefono?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.father_ocupacion)}
+                  isInvalid={Boolean(formState.errors.father?.ocupacion)}
                 >
                   <FormLabel>Ocupación:</FormLabel>
                   <Input
                     placeholder="Ingrese su ocupación"
-                    id="father_ocupacion"
-                    {...register('father_ocupacion')}
+                    id="father.ocupacion"
+                    {...register('father.ocupacion')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_ocupacion?.message || 'Invalido'}
+                    {formState.errors.father?.ocupacion?.message || 'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.father_lugar_trabajo)}
+                  isInvalid={Boolean(formState.errors.father?.lugar_trabajo)}
                 >
                   <FormLabel>Lugar de trabajo:</FormLabel>
                   <Input
                     placeholder="Ingrese su lugar de trabajo"
-                    id="father_lugar_trabajo"
-                    {...register('father_lugar_trabajo')}
+                    id="father.lugar_trabajo"
+                    {...register('father.lugar_trabajo')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_lugar_trabajo?.message ||
+                    {formState.errors.father?.lugar_trabajo?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl
-                  isInvalid={Boolean(formState.errors.father_direccion_trabajo)}
+                  isInvalid={Boolean(
+                    formState.errors.father?.direccion_trabajo
+                  )}
                 >
                   <FormLabel>Dirección de trabajo:</FormLabel>
                   <Input
                     placeholder="Ingrese su dirección de trabajo"
-                    id="father_direccion_trabajo"
-                    {...register('father_direccion_trabajo')}
+                    id="father.direccion_trabajo"
+                    {...register('father.direccion_trabajo')}
                   />
                   <FormErrorMessage>
-                    {formState.errors.father_direccion_trabajo?.message ||
+                    {formState.errors.father?.direccion_trabajo?.message ||
                       'Invalido'}
                   </FormErrorMessage>
                 </FormControl>
@@ -1544,11 +1620,11 @@ export function FamilyForm() {
           height="60px"
           color="#2843B2"
           borderColor="#2843B2"
-          type="submit"
+          onClick={saveFirstMeeting}
         >
           Guardar primera cita
         </Button>
-        {/* <Button
+        <Button
           bg="#2843B2"
           color="white"
           px="24px"
@@ -1558,7 +1634,7 @@ export function FamilyForm() {
           type="submit"
         >
           Continuar con el seguimiento
-        </Button> */}
+        </Button>
       </Box>
     </form>
   );

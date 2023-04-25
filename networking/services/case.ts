@@ -263,12 +263,6 @@ export interface CreateVictimDTO {
   semanas_de_embarazo: number | null;
   padese_de_alguna_patologia: YesNo | null;
   patologia: string | null;
-  // NOTE: the following fields are going to be added as PATCH request
-  // madre: number | null;
-  // padre: number | null;
-  // hermanos: number[];
-  // Persona_importante_para_la_Familia: number[];
-  // familiares: number[];
 }
 
 export const createVictim = (body: CreateVictimDTO) => {
@@ -293,8 +287,13 @@ export interface CreateMotherDTO {
   direccion_trabajo: string | null;
 }
 
+export interface CreateMotherResponseDTO extends CreateMotherDTO {
+  codigo_madre: number;
+}
+
 export const createMother = (body: CreateMotherDTO) => {
-  return httpClient.post('/madre/', body);
+  // NOTE: missing hardcode genero
+  return httpClient.post<CreateMotherResponseDTO>('/madre/', body);
 };
 
 export interface CreateFatherDTO {
@@ -315,8 +314,12 @@ export interface CreateFatherDTO {
   direccion_trabajo: string | null;
 }
 
+export interface CreateFatherResponseDTO extends CreateFatherDTO {
+  codigo_padre: number;
+}
+
 export const createFather = (body: CreateFatherDTO) => {
-  return httpClient.post('/padre/', body);
+  return httpClient.post<CreateFatherResponseDTO>('/padre/', body);
 };
 
 export interface CreateSiblingDTO {
@@ -337,8 +340,12 @@ export interface CreateSiblingDTO {
   direccion_trabajo: string | null;
 }
 
+export interface CreateSiblingResponseDTO extends CreateSiblingDTO {
+  codigo_hermano: number;
+}
+
 export const createSibling = (body: CreateSiblingDTO) => {
-  return httpClient.post('/hermano/', body);
+  return httpClient.post<CreateSiblingResponseDTO>('/hermano/', body);
 };
 
 export enum FamilyMemberRelation {
@@ -383,8 +390,12 @@ export interface CreateFamilyMemberDTO {
   parentesco_otro: string | null;
 }
 
+export interface CreateFamilyMemberResponseDTO extends CreateFamilyMemberDTO {
+  codigo_familiar: number;
+}
+
 export const createFamilyMember = (body: CreateFamilyMemberDTO) => {
-  return httpClient.post('/familiar/', body);
+  return httpClient.post<CreateFamilyMemberResponseDTO>('/familiar/', body);
 };
 
 export interface CreatePersonOfInterestDTO {
@@ -409,6 +420,82 @@ export interface CreatePersonOfInterestDTO {
   numero_telefono_de_referencia: string | null;
 }
 
+export interface CreatePersonOfInterestResponseDTO extends CreatePersonOfInterestDTO {
+  codigo_persona_importante_para_la_Familia: number;
+}
+
 export const createPersonOfInterest = (body: CreatePersonOfInterestDTO) => {
-  return httpClient.post('/persona-importante/', body);
+  return httpClient.post<CreatePersonOfInterestResponseDTO>('/persona-importante/', body);
+};
+
+export interface UpdateVictimDTO {
+  madre: number | null;
+  padre: number | null;
+  hermanos: number[];
+  Persona_importante_para_la_Familia: number[];
+  familiares: number[];
+}
+
+export const updateVictim = (id: number, body: Partial<UpdateVictimDTO>) => {
+  return httpClient.patch(`/victima/${id}/`, body);
+};
+
+export interface AddVictimFamilyDTO {
+  madre: CreateMotherDTO | null;
+  padre: CreateFatherDTO | null;
+  hermanos: CreateSiblingDTO[] | null;
+  persona_importante_para_la_familia: CreatePersonOfInterestDTO[] | null;
+  familiares: CreateFamilyMemberDTO[] | null;
+}
+
+export const addVictimFamily = async (victima: number, params: AddVictimFamilyDTO) => {
+  console.log(victima, params);
+  
+  try {
+    const { madre, padre, hermanos, persona_importante_para_la_familia, familiares } = params;
+
+    const victimPatchRequestBody: UpdateVictimDTO = {} as unknown as UpdateVictimDTO;
+
+    if (madre) {
+      const { data: { codigo_madre } } = await createMother(madre);
+
+      victimPatchRequestBody.madre = codigo_madre;
+    }
+
+    if (padre) {
+      const { data: { codigo_padre } } = await createFather(padre);
+
+      victimPatchRequestBody.padre = codigo_padre;
+    }
+
+    if (hermanos) {
+      hermanos.map(async (hermano) => {
+        const { data: { codigo_hermano } } = await createSibling(hermano);
+
+        victimPatchRequestBody.hermanos = [...victimPatchRequestBody.hermanos, codigo_hermano];
+      });
+    }
+
+    if (persona_importante_para_la_familia) {
+      persona_importante_para_la_familia.map(async (persona) => {
+        const { data: { codigo_persona_importante_para_la_Familia } } = await createPersonOfInterest(persona);
+
+        victimPatchRequestBody.Persona_importante_para_la_Familia = [...victimPatchRequestBody.Persona_importante_para_la_Familia, codigo_persona_importante_para_la_Familia];
+      });
+    }
+
+    if (familiares) {
+      familiares.map(async (familiar) => {
+        const { data: { codigo_familiar } } = await createFamilyMember(familiar);
+
+        victimPatchRequestBody.familiares = [...victimPatchRequestBody.familiares, codigo_familiar];
+      });
+    }
+
+    const { data } = await updateVictim(victima, victimPatchRequestBody);
+
+    return data;
+  } catch (error) {
+    throw new Error('Hubo un error al agregar la familia');
+  }
 };
