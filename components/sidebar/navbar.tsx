@@ -18,8 +18,6 @@ import { BellIcon, CalendarIcon } from '@/assets/icons';
 export const Navbar = (props: FlexProps) => {
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
-      p={{ base: 12 }}
       paddingBottom="0"
       alignItems="center"
       bg="white"

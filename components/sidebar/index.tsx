@@ -36,7 +36,7 @@ const links: LinkItemProps[] = [
 
 export const Sidebar = ({ children }: { children: ReactNode }) => {
   return (
-    <Box minH="100vh">
+    <Box minH="100vh" maxW="100vw">
       <SidebarContent />
       <Navbar />
       <Box ml={{ base: 0, md: 60 }} paddingX="3rem" paddingY="1.5rem">
@@ -63,6 +63,7 @@ const SidebarContent = (props: FlexProps) => {
       justifyItems="space-between"
       direction="column"
       paddingBottom={8}
+      paddingX={5}
       {...props}
     >
       <Flex
