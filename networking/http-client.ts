@@ -9,7 +9,6 @@ const httpClient = axios.create({
   headers: {
     Accept: APPLICATION_JSON,
     [CONTENT_TYPE]: APPLICATION_JSON,
-    Authorization: "Token fd0ba4ac4c25fe479e9eeb5f5a4f085c61967dda"
   },
 });
 

@@ -17,22 +17,23 @@ interface UserFormProps {
   user?: User;
   onCancel: () => void;
   onValidated: (user: User) => void;
-  isEditingMode?: boolean
+  isEditingMode?: boolean;
 }
 
 export const UserForm: FC<UserFormProps> = ({
   user,
   onCancel,
   onValidated,
-  isEditingMode
+  isEditingMode,
 }) => {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm();
-  const [formData, setFormData] = useState(user);
+  const [formData, setFormData] = useState(user); // TODO: set user as default value for edit mode using react-hook-form
 
+  // TODO: remove not needed function and use react-hook-form
   const handleFields = (event: FormEvent) => {
     const { id, value } = event.target as HTMLInputElement;
     const newData: FieldValues = {
@@ -49,6 +50,7 @@ export const UserForm: FC<UserFormProps> = ({
   };
 
   const onSubmit = () => {
+    // TODO: add validations using zod
     onValidated(formData as User);
   };
 
@@ -103,7 +105,7 @@ export const UserForm: FC<UserFormProps> = ({
         <FormControl>
           <Input
             id="password"
-            placeholder={isEditingMode ? "Contraseña" : "Contraseña*"}
+            placeholder={isEditingMode ? 'Contraseña' : 'Contraseña*'}
             value={formData?.password}
             {...register('password')}
             onChange={handleFields}
