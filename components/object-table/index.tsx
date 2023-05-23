@@ -11,7 +11,7 @@ import {
   Td,
 } from '@chakra-ui/react';
 
-import { DataItem, MainActionButtonProps } from '@/app/types';
+import { DataItem, MainActionButtonProps } from '@/types';
 import { ObjectTableActionButtons } from './object-table-action-buttons';
 
 interface ObjectTableProps {
