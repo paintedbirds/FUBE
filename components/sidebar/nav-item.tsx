@@ -1,4 +1,5 @@
 import { Flex, FlexProps, IconProps, Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
 interface NavItemProps extends FlexProps {
   icon: IconProps;
@@ -14,6 +15,7 @@ export const NavItem = ({
 }: NavItemProps) => {
   return (
     <Link
+      as={NextLink}
       href={route}
       fontWeight={700}
       style={{ textDecoration: 'none' }}
