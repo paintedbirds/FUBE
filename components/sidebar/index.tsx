@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import {
   Box,
   Flex,
@@ -11,8 +11,8 @@ import {
   useDisclosure,
   Button,
   Collapse,
-  Link,
   Tooltip,
+  Fade,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { IconProps } from '@chakra-ui/icons';
@@ -27,6 +27,7 @@ import { Navbar } from './navbar';
 import { NavItem } from './nav-item';
 import { RetrunIcon } from '@/assets/icons/return';
 import { ExpandIcon } from '@/assets/icons/expand';
+import { Link } from '@chakra-ui/next-js';
 import NextLink from 'next/link';
 
 interface LinkItemProps {
@@ -72,31 +73,34 @@ export const Sidebar = ({ children }: { children: ReactNode }) => {
 
 const SidebarContent = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   return (
     <Flex
-      transition="3s ease"
       bg="white"
       h="100vh"
       justifyItems="space-between"
       direction="column"
+      borderWidth="1px"
     >
-      <Flex
-        h="10px"
-        alignItems="center"
-        justifyContent={isOpen ? 'flex-start' : 'center'}
-        marginTop="4rem"
-        marginInline={isOpen ? '2rem' : '0'}
-        marginBottom="4rem"
-      >
-        <Link as={NextLink} href="/dashboard">
-          <Image
-            src={LogoFoundationVariant}
-            alt="Logo FUBE"
-            width={isOpen ? 80 : 45}
-          />
-        </Link>
-      </Flex>
+      <Link as={NextLink} href="/dashboard">
+        <Flex
+          height="80px"
+          marginTop="2rem"
+          marginInlineStart={isOpen ? '1.5rem' : '0'}
+          justifyContent={isOpen ? 'flex-start' : 'center'}
+          width="full"
+          alignItems="flex-start"
+          marginBottom="0.5rem"
+        >
+          <Collapse in={isOpen}>
+            <Image src={LogoFoundationVariant} alt="Logo FUBE" width={110} />
+          </Collapse>
+          <Fade in={!isOpen}>
+            <Image src={LogoFoundationVariant} alt="Logo FUBE" width={45} />
+          </Fade>
+        </Flex>
+      </Link>
 
       {links.map(({ icon, label, route }) => (
         <NavItem
@@ -108,15 +112,16 @@ const SidebarContent = () => {
         />
       ))}
 
-      <Flex
+      <VStack
         marginTop="auto"
-        justify="center"
+        justifyContent="space-between"
         direction="column"
         align="center"
         p="4"
+        h="160px"
       >
         <Tooltip label="Expandir" placement="auto" isDisabled={isOpen}>
-          <Button onClick={onToggle} background="wihte" transition="3s ease">
+          <Button onClick={onToggle} background="wihte">
             <Collapse in={isOpen} animateOpacity>
               <Flex gap="2">
                 Colapsar <RetrunIcon />
@@ -131,10 +136,10 @@ const SidebarContent = () => {
         <Collapse in={isOpen} animateOpacity>
           <Divider marginY="0.5rem" />
           <Text fontSize={12} color="rgba(52, 52, 52, 0.45)" textAlign="center">
-            © 2023 FUBE. Todos los derechos reservados
+            © {currentYear} FUBE. Todos los derechos reservados
           </Text>
         </Collapse>
-      </Flex>
+      </VStack>
     </Flex>
   );
 };

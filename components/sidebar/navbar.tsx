@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
   Flex,
@@ -10,43 +9,17 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import { signOut } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
-import Breadcrumb, { Crumbs } from '../breadcrumb/Breadcrumb';
+import { signOut, useSession } from 'next-auth/react';
+import Breadcrumb from '../breadcrumb/Breadcrumb';
 
 export const Navbar = () => {
-  const pathname = usePathname();
-  const [crumbs, setCrumbs] = useState<Crumbs[]>([]);
-
-  const paths = useMemo(() => {
-    if (!pathname) {
-      return;
-    }
-
-    return pathname.split('/').splice(1);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!paths) {
-      return;
-    }
-
-    const breadcumb: Crumbs[] = paths.map((path, index) => {
-      return {
-        title: path.replace(
-          /^(.)(.*)$/,
-          (_, firstChar, restOfString) => firstChar.toUpperCase() + restOfString
-        ),
-        path: `/${paths.slice(0, index + 1).join('/')}`,
-      };
-    });
-    setCrumbs(breadcumb);
-  }, [paths]);
+  const {data} = useSession();
+  const getUserFullName = (): string => `${data?.user.first_name} ${data?.user.last_name}` ?? "user";
 
   return (
     <Flex py={2} width="full" alignItems="center">
       <HStack justifyContent="space-between" width="full">
-        <Breadcrumb crumbs={crumbs} />
+        <Breadcrumb />
 
         <Flex alignItems="center">
           <Menu>
@@ -56,11 +29,11 @@ export const Navbar = () => {
               _focus={{ boxShadow: 'none' }}
             >
               <Flex gap="3" alignItems="center">
-                <Text fontSize={16}>Rodrygo</Text>
+                <Text fontSize={16}>{data?.user.first_name ?? "User"}</Text>
                 <Avatar
                   size="sm"
                   src="https://bit.ly/broken-link"
-                  name="Rodrygo Goes"
+                  name={getUserFullName()}
                 />
               </Flex>
             </MenuButton>

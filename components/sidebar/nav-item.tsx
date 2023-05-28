@@ -45,13 +45,13 @@ export const NavItem = ({
       <Tooltip label={label} placement="auto">
         <Flex
           align="center"
-          p="4"
+          px="4"
           mx="4"
+          h="55px"
           borderRadius="lg"
           role="group"
           cursor="pointer"
           gap="22px"
-          _active={{ bg: '#2843B21A' }}
           _hover={{ color: '#2843B2' }}
           {...leftOverProps}
           {...dinamicProps}

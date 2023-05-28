@@ -4,18 +4,35 @@ import {
   BreadcrumbLink,
 } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 
 export interface Crumbs {
   path: string;
   title: string;
 }
 
-interface Breadcrumb {
-  crumbs: Crumbs[];
-}
-
-const Breadcrumb = ({ crumbs }: Breadcrumb) => {
+const Breadcrumb = () => {
   const pathname = usePathname();
+  const [crumbs, setCrumbs] = useState<Crumbs[]>([]);
+
+  const paths = useMemo(() => pathname?.split('/').splice(1), [pathname]);
+
+  useEffect(() => {
+    if (!paths) {
+      return;
+    }
+
+    const breadcumb: Crumbs[] = paths.map((path, index) => {
+      return {
+        title: path.replace(
+          /^(.)(.*)$/,
+          (_, firstChar, restOfString) => firstChar.toUpperCase() + restOfString
+        ),
+        path: `/${paths.slice(0, index + 1).join('/')}`,
+      };
+    });
+    setCrumbs(breadcumb);
+  }, [paths]);
 
   return (
     <ChakraBreadcrumb>
