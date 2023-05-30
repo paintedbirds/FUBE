@@ -1,14 +1,34 @@
 'use client';
 
-import { ReactNode } from 'react';
-import { Box, Flex, Text, Button, Divider, FlexProps } from '@chakra-ui/react';
+import { ReactNode, useMemo } from 'react';
+import {
+  Box,
+  Flex,
+  Text,
+  Divider,
+  HStack,
+  VStack,
+  useDisclosure,
+  Button,
+  Collapse,
+  Tooltip,
+  Fade,
+} from '@chakra-ui/react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { AddIcon, IconProps } from '@chakra-ui/icons';
-import { AlbumsIcon, DashboardIcon, UserDetailIcon } from '@/assets/icons';
+import { IconProps } from '@chakra-ui/icons';
+import {
+  AlbumsIcon,
+  DashboardIcon,
+  UserDetailIcon,
+  CalendarIcon,
+} from '@/assets/icons';
 import LogoFoundationVariant from '@/assets/logo-variant.svg';
 import { Navbar } from './navbar';
 import { NavItem } from './nav-item';
+import { RetrunIcon } from '@/assets/icons/return';
+import { ExpandIcon } from '@/assets/icons/expand';
+import { Link } from '@chakra-ui/next-js';
+import NextLink from 'next/link';
 
 interface LinkItemProps {
   label: string;
@@ -23,96 +43,103 @@ const links: LinkItemProps[] = [
     icon: <DashboardIcon />,
   },
   {
+    label: 'Usuarios',
+    route: '/dashboard/usuarios',
+    icon: <UserDetailIcon />,
+  },
+  {
     label: 'Casos',
     route: '/dashboard/casos',
     icon: <AlbumsIcon />,
   },
   {
-    label: 'Usuarios',
-    route: '/dashboard/usuarios',
-    icon: <UserDetailIcon />,
+    label: 'Calendario',
+    route: '/dashboard/calendario',
+    icon: <CalendarIcon />,
   },
 ];
 
 export const Sidebar = ({ children }: { children: ReactNode }) => {
   return (
-    <Box minH="100vh">
+    <HStack alignItems="flex-start" bg="#F5F5F5">
       <SidebarContent />
-      <Navbar />
-      <Box ml={{ base: 0, md: 60 }} p="4" paddingLeft="60px">
-        {children}
-      </Box>
-    </Box>
+      <VStack width="full" px={5} transition="3s ease">
+        <Navbar />
+        <Box width="full">{children}</Box>
+      </VStack>
+    </HStack>
   );
 };
 
-const SidebarContent = (props: FlexProps) => {
-  const router = useRouter();
-
-  const handleRegisterClick = () => {
-    router.push('/dashboard/casos/registro');
-  };
+const SidebarContent = () => {
+  const { isOpen, onToggle } = useDisclosure();
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   return (
     <Flex
-      transition="3s ease"
-      bg="#F5F5F5"
-      w={{ base: 'full', md: 60 }}
-      position="fixed"
-      minH="full"
+      bg="white"
+      h="100vh"
       justifyItems="space-between"
       direction="column"
-      paddingBottom={8}
-      {...props}
+      borderWidth="1px"
     >
-      <Flex
-        h="20"
-        alignItems="center"
-        justifyContent="space-between"
-        marginTop="4rem"
-        marginInline="2rem"
-        marginBottom="5rem"
-      >
-        <Image src={LogoFoundationVariant} alt="Logo FUBE" />
-      </Flex>
-
-      <Flex justify="center" direction="column" align="center" p="4">
-        <Button
-          background="#2843B21A"
-          color="#2843B2"
-          rightIcon={<AddIcon />}
-          paddingY="10px"
-          paddingX="2rem"
-          height="48px"
-          fontWeight="bold"
-          onClick={handleRegisterClick}
+      <Link as={NextLink} href="/dashboard">
+        <Flex
+          height="80px"
+          marginTop="2rem"
+          marginInlineStart={isOpen ? '1.5rem' : '0'}
+          justifyContent={isOpen ? 'flex-start' : 'center'}
+          width="full"
+          alignItems="flex-start"
+          marginBottom="0.5rem"
         >
-          Registrar un caso
-        </Button>
-        <Divider marginY="0.5rem" />
-      </Flex>
+          <Collapse in={isOpen}>
+            <Image src={LogoFoundationVariant} alt="Logo FUBE" width={110} />
+          </Collapse>
+          <Fade in={!isOpen}>
+            <Image src={LogoFoundationVariant} alt="Logo FUBE" width={45} />
+          </Fade>
+        </Flex>
+      </Link>
 
       {links.map(({ icon, label, route }) => (
-        <NavItem key={label} icon={icon} route={route} label={label} />
+        <NavItem
+          key={label}
+          icon={icon}
+          route={route}
+          label={label}
+          showLabel={isOpen}
+        />
       ))}
 
-      <Flex
+      <VStack
         marginTop="auto"
-        justify="center"
+        justifyContent="space-between"
         direction="column"
         align="center"
         p="4"
+        h="160px"
       >
-        <Divider marginY="0.5rem" />
-        <Text
-          fontSize={12}
-          color="rgba(52, 52, 52, 0.45)"
-          width="200px"
-          textAlign="center"
-        >
-          © 2023 FUBE. Todos los derechos reservados
-        </Text>
-      </Flex>
+        <Tooltip label="Expandir" placement="auto" isDisabled={isOpen}>
+          <Button onClick={onToggle} background="wihte">
+            <Collapse in={isOpen} animateOpacity>
+              <Flex gap="2">
+                Colapsar <RetrunIcon />
+              </Flex>
+            </Collapse>
+            <Collapse in={!isOpen} animateOpacity>
+              <ExpandIcon />
+            </Collapse>
+          </Button>
+        </Tooltip>
+
+        <Collapse in={isOpen} animateOpacity>
+          <Divider marginY="0.5rem" />
+          <Text fontSize={12} color="rgba(52, 52, 52, 0.45)" textAlign="center">
+            © {currentYear} FUBE. Todos los derechos reservados
+          </Text>
+        </Collapse>
+      </VStack>
     </Flex>
   );
 };
